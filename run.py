@@ -12,7 +12,7 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('buy_me')
 
-def view_shoping_list():
+def view_shopping_list():
     """
     Lets the user choose if they what to see both shopping
     lists as one or one separate list, either standard list or
@@ -39,11 +39,11 @@ def view_shoping_list():
         standard_list = SHEET.worksheet('standard').get_all_values()
         extra_list = SHEET.worksheet('extra').get_all_values()
 
-        headings = standard_list[0]
+        headings = [standard_list[0]]
         standard_list_values = standard_list[1:]
         extra_list_values = extra_list[1:]
 
-        shop_list = headings + standard_list_values + extra_list_values
+        shop_list = headings + standard_list_values + extra_list_values  ##add sort on location
 
     else:
         print("Incorrect list choice. Please try again!\n")
@@ -76,6 +76,8 @@ def check_bought_item():
         else:
             print('Wrong input, please try again.\n')   
             check_bought_item() 
+    
+    return item_index
         
 
 def validate_index(value):
@@ -83,21 +85,37 @@ def validate_index(value):
     Validates item index as an integer.
     """
     try:
-        index_value = int(value)
+        value = int(value)  ##add validation of column length in list, and max int lenght after list lenght
     except ValueError:
         print(f"Invalid data: {value} is not a whole number (no decimals). Please try again! \n")
         return False
 
     return True
 
+def check_item_in_worksheet(check_item, shopping_list):
+    """
+    Finds the item the user chose to check 
+    and changes the value in google sheet.
+    """ 
+    index_num = int(check_item)
+    
+    if shopping_list == SHEET.worksheet('standard').get_all_values():
+        print('ok')
+
+    elif shopping_list == SHEET.worksheet('extra').get_all_values():   
+        print('ok two')
+
+    else:
+        print('Not possible to check complete list atm')  ##complete list is merger of two lists
+    
 
 def main():
     """
     Run all program functions.
     """
-    view_shoping_list()
-    check_bought_item()
-    
-    
+    shopping_list = view_shopping_list()
+    check_item = check_bought_item()
+    check_item_in_worksheet(check_item, shopping_list)
+
 
 main()
