@@ -15,42 +15,66 @@ SHEET = GSPREAD_CLIENT.open('buy_me')
 def view_shoping_list():
     """
     Lets the user choose if they what to see both shopping
-    lists as one or one separate list, either standard list or 
-    the list for extra supplies.
+    lists as one or one separate list, either standard list or
+    the list for extra supplies. A complete list contains values 
+    from both lists but only one heading.
     """
-    while True:
-        print('Welcome to your personal shopping list!\n')
-        print('Would you like to see a complete list?')
-        print('Or part of your shopping list?')
-        print('Choose between: Complete, Standard or Extra.\n')
-        list_choice = input('Please choose a list: \n').lower()
+    
+    print('Welcome to your personal shopping list!\n')
+    print('Would you like to see a complete list?')
+    print('Or part of your shopping list?')
+    print('Choose between: Complete, Standard or Extra.\n')
+    list_choice = input('Please choose a list: \n').lower()
 
-        if list_choice == 'standard':
-            print('You chose the standard shopping list.\n')
-            shop_list = SHEET.worksheet('standard')
-            data = shop_list.get_all_values()
+    if list_choice == 'standard':
+        print('You chose the standard shopping list.\n')
+        shop_list = SHEET.worksheet('standard').get_all_values()
 
-        elif list_choice == 'extra':
-            print('You chose the extra shopping list.\n')
-            shop_list = SHEET.worksheet('extra')
-            data = shop_list.get_all_values()
+    elif list_choice == 'extra':
+        print('You chose the extra shopping list.\n')
+        shop_list = SHEET.worksheet('extra').get_all_values()
 
-        elif list_choice == 'complete':
-            print('You chose the complete shopping list.\n')
-            standard_list = SHEET.worksheet('standard').get_all_values()
-            extra_list = SHEET.worksheet('extra').get_all_values()
+    elif list_choice == 'complete':
+        print('You chose the complete shopping list.\n')
+        standard_list = SHEET.worksheet('standard').get_all_values()
+        extra_list = SHEET.worksheet('extra').get_all_values()
 
-            headings = standard_list[0]
-            standard_list_values = standard_list[1:]
-            extra_list_values = extra_list[1:]
+        headings = standard_list[0]
+        standard_list_values = standard_list[1:]
+        extra_list_values = extra_list[1:]
 
-            data = headings + standard_list_values + extra_list_values
+        shop_list = headings + standard_list_values + extra_list_values
 
-        else:
-            print("Incorrect list choice. Please try again!\n")
-            view_shoping_list()
+    else:
+        print("Incorrect list choice. Please try again!\n")
+        view_shoping_list()
 
-        pprint(data)
+    pprint(shop_list)
+    return shop_list
+    
 
+def check_bought_item():
+    """
+    Lets the user check of items already bought on the list.
+    """
+    print('\n Would you like to check of an item?\n')
+    check_item = input('Y/N?\n').lower()
 
-view_shoping_list()
+    if check_item == 'y':
+        print('Choose the number of the item you like to check.\n')
+        item_str = input('Item number:')
+        item_index = int(item_str)
+
+    elif check_item == 'n':
+        print('Going back to the main menu.\n')
+        main()
+
+    return item_index  
+
+   
+def main():
+    view_shoping_list()
+    check_bought_item()
+    
+
+main()
