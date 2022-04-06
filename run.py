@@ -57,32 +57,39 @@ def check_bought_item():
     """
     Lets the user check of items already bought on the list.
     """
-    print('\n Would you like to check of an item?\n')
-    check_item = input('Y/N?\n').lower()
+    while True:
+        print('\nWould you like to check of an item?\n')
+        check_item = input('Y/N?\n').lower()
 
-    if check_item == 'y':
-        print('Choose the number of the item you like to check.\n')
-        item_index = input('Item number:')
-        validate_index(item_index)
+        if check_item == 'y':
+            print('Choose the number of the item you like to check.\n')
+            item_index = input('Item number:')
+            
+            if validate_index(item_index):
+                print('Valid input.')
+                break
 
-    elif check_item == 'n':
-        print('Going back to the main menu.\n')
-        main()
+        elif check_item == 'n':
+            print('Going back to the main menu.\n')
+            main()
 
-    else:
-        print('Wrong input, please try again.\n')   
-        check_bought_item() 
-
-    
+        else:
+            print('Wrong input, please try again.\n')   
+            check_bought_item() 
+        
 
 def validate_index(value):
     """
     Validates item index as an integer.
     """
     try:
-        value = int(value)
+        index_value = int(value)
     except ValueError:
         print(f"Invalid data: {value} is not a whole number (no decimals). Please try again! \n")
+        return False
+
+    return True
+
 
 def main():
     """
