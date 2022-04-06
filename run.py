@@ -11,8 +11,25 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('buy_me')
 
-shop_list = SHEET.worksheet('standard')
+def view_shoping_list():
+    """
+    Lets the user choose if they what to see both shopping
+    lists as one or one separate list, either standard list or 
+    the list for extra supplies.
+    """
+    while True:
+        print('Welcome to your personal shopping list!\n')
+        print('Would you like to see a complete list?')
+        print('or part of your shopping list?')
+        print('Choose between: Complete, Standard or Extra.\n')
+        list_choice = input('Please choose a list: \n').lower()
 
-data = shop_list.get_all_values()
+        if list_choice == 'standard':
+            print('You chose the standard shopping list.')
+            shop_list = SHEET.worksheet('standard')
+            data = shop_list.get_all_values()
 
-print(data)
+            print(data)
+
+
+view_shoping_list()
