@@ -22,20 +22,24 @@ def view_shopping_list():
     
     print('Welcome to your personal shopping list!\n')
     print('Would you like to see a complete list?')
-    print('Or part of your shopping list?')
+    print('Or your editable shopping list?')
     print('Choose between: Complete, Standard or Extra.\n')
     list_choice = input('Please choose a list: \n').lower()
 
     if list_choice == 'standard':
         print('You chose the standard shopping list.\n')
         shop_list = SHEET.worksheet('standard').get_all_values()
+        pprint(shop_list)
 
     elif list_choice == 'extra':
         print('You chose the extra shopping list.\n')
         shop_list = SHEET.worksheet('extra').get_all_values()
+        pprint(shop_list)
 
     elif list_choice == 'complete':
-        print('You chose the complete shopping list.\n')
+        print('\nYou chose the complete shopping list.')
+        print('At the moment this list is view only.')
+        print('Choose another list if you like to edit the list.\n')
         standard_list = SHEET.worksheet('standard').get_all_values()
         extra_list = SHEET.worksheet('extra').get_all_values()
 
@@ -44,12 +48,14 @@ def view_shopping_list():
         extra_list_values = extra_list[1:]
 
         shop_list = headings + standard_list_values + extra_list_values  ##add sort on location
+        pprint(shop_list)
+        main()
 
     else:
         print("Incorrect list choice. Please try again!\n")
         main()
 
-    pprint(shop_list)
+    
     return shop_list
     
 
@@ -75,7 +81,6 @@ def check_bought_item():
 
         else:
             print('Wrong input, please try again.\n')   
-            check_bought_item() 
     
     return item_index
         
@@ -100,13 +105,28 @@ def check_item_in_worksheet(check_item, shopping_list):
     index_num = int(check_item)
     
     if shopping_list == SHEET.worksheet('standard').get_all_values():
-        print('ok')
+        standard = SHEET.worksheet('standard').col_values(1)
+        
+        if check_item in standard:
+            standard_col = SHEET.worksheet('standard').col_values(3) 
+            print(standard_col[index_num])
+            
+        else:
+            print('Item value not in list, please pick another value.')
 
-    elif shopping_list == SHEET.worksheet('extra').get_all_values():   
-        print('ok two')
+    elif shopping_list == SHEET.worksheet('extra').get_all_values():
+        extra = SHEET.worksheet('extra').col_values(1)   
+        
+        if check_item in extra:
+            extra_col = SHEET.worksheet('extra').col_values(3) 
+            print(extra_col[index_num])
+
+        else:
+            print('Item value not in list, please pick another value.')
 
     else:
         print('Not possible to check complete list atm')  ##complete list is merger of two lists
+        main()
     
 
 def main():
