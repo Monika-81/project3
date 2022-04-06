@@ -47,7 +47,7 @@ def view_shoping_list():
 
     else:
         print("Incorrect list choice. Please try again!\n")
-        view_shoping_list()
+        main()
 
     pprint(shop_list)
     return shop_list
@@ -62,19 +62,35 @@ def check_bought_item():
 
     if check_item == 'y':
         print('Choose the number of the item you like to check.\n')
-        item_str = input('Item number:')
-        item_index = int(item_str)
+        item_index = input('Item number:')
+        validate_index(item_index)
 
     elif check_item == 'n':
         print('Going back to the main menu.\n')
         main()
 
-    return item_index  
+    else:
+        print('Wrong input, please try again.\n')   
+        check_bought_item() 
 
-   
+    
+
+def validate_index(value):
+    """
+    Validates item index as an integer.
+    """
+    try:
+        value = int(value)
+    except ValueError:
+        print(f"Invalid data: {value} is not a whole number (no decimals). Please try again! \n")
+
 def main():
+    """
+    Run all program functions.
+    """
     view_shoping_list()
     check_bought_item()
+    
     
 
 main()
