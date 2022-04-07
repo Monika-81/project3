@@ -66,7 +66,7 @@ def edit_list():
     Lets the user choose if they like to edit the list.
     """
     print('\nWould you like to edit the list?\n')
-    edit = input('Y/N?: ').lower()
+    edit = input('Y/N?:\n').lower()
 
     if edit == 'y':
         pass
@@ -122,7 +122,7 @@ def item_to_edit():
     """
     while True:
         print('\nChoose the number of the item you like to edit.\n')
-        item_index = input('Item number:')
+        item_index = input('Item number:\n')
             
         if validate_int(item_index):
             break
@@ -304,7 +304,7 @@ def add_item(shopping_list):
 
     print(f'Do you wish to add {item}, quantity of {quantity} at location {location} to the list?')
 
-    add_acceptance = input('Y/N?: ') 
+    add_acceptance = input('Y/N?:\n') 
     if add_acceptance == 'y':
         if shopping_list == SHEET.worksheet('standard').get_all_values():
             standard = SHEET.worksheet('standard').col_values(1)
@@ -342,14 +342,40 @@ def delete_item(edit_item, shopping_list):
         if shopping_list == SHEET.worksheet('standard').get_all_values():
             standard = SHEET.worksheet('standard').col_values(1)
             index_num = int(edit_item)
+
             if edit_item in standard:
                 delete_row = (shopping_list[index_num])
                 print(delete_row)
                 print(f'Are you sure you want to delete row {delete_row}')
-                verify_delete = input('Y/N?: ')
+                verify_delete = input('Y/N?:\n')
 
                 if verify_delete == 'y':
                     SHEET.worksheet('standard').delete_rows((index_num) + 1)
+                    print('Row deleted')
+                    break
+
+                elif verify_delete == 'n':
+                    print('Item not deleted. Please make a new choice of action.\n')
+                    break
+
+                else:  
+                    ('Please try again. Choose yes (y) or no (n).')         
+                    return False
+        
+        elif shopping_list == SHEET.worksheet('extra').get_all_values():
+            extra = SHEET.worksheet('extra').col_values(1)
+            index_num = int(edit_item)
+            
+            if edit_item in extra:
+                delete_row = (shopping_list[index_num])
+                print(delete_row)
+                print(f'Are you sure you want to delete row {delete_row}')
+                verify_delete = input('Y/N?:\n')
+
+                if verify_delete == 'y':
+                    SHEET.worksheet('extra').delete_rows((index_num) + 1)
+                    print('Row deleted')
+                    break
 
                 elif verify_delete == 'n':
                     print('Item not deleted. Please make a new choice of action.\n')
@@ -357,7 +383,13 @@ def delete_item(edit_item, shopping_list):
 
                 else:  
                     ('Please try again. Choose yes (y) or no (n).')
-                    return False
+                    return False   
+
+        else:
+            print('Not possible to edit complete list atm')  ##complete list is merger of two lists
+
+    return True        
+                        
 
 def main():
     """
