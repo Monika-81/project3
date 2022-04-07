@@ -72,7 +72,6 @@ def item_to_edit():
             item_index = input('Item number:')
             
             if validate_index(item_index):
-                print('Valid input.')
                 break
 
         elif edit_item == 'n':
@@ -112,7 +111,6 @@ def edit_menu(edit_item):
     while True:
         edit_action = input('Action number:')
         if validate_action(edit_action):
-            print('Input valid')
             break
         
     return edit_action
@@ -214,32 +212,34 @@ def check_item_in_worksheet(edit_item, shopping_list):
 def change_quantity(edit_item, shopping_list): 
     """
     Changes the quantity of an item on the list.
-    """
-    index_num = int(edit_item)
-    quantity = input('Input new quantity value:\n')
-    
+    """  
+    while True:
+        quantity = input('Input new quantity value:\n')  
+        if validate_index(quantity):
+            break
+        else:
+            print('Please insert a whole numeric number.')
+        
     if shopping_list == SHEET.worksheet('standard').get_all_values():
-        standard = SHEET.worksheet('standard').col_values(1)
-        standard_col = SHEET.worksheet('standard').col_values(4) 
+        standard = SHEET.worksheet('standard').col_values(1) 
         
         if edit_item in standard:
 
             check_position = int(standard.index(edit_item))
             SHEET.worksheet('standard').update_cell(check_position + 1, 4, quantity)
-            print(f"The quantatity of item number {edit_item} has been set to {quantity}.")
+            print(f"The quantatity has been set to {quantity}.")
             
         else:
             print('Item value not in list, please pick another value.')
 
     elif shopping_list == SHEET.worksheet('extra').get_all_values():
         extra = SHEET.worksheet('extra').col_values(1)
-        extra_col = SHEET.worksheet('extra').col_values(3) 
                 
         if edit_item in extra:
            
             check_position = int(extra.index(edit_item))
             SHEET.worksheet('extra').update_cell(check_position + 1, 4, quantity)
-            print(f"The quantatity of item number {edit_item} has been set to {quantity}.")
+            print(f"The quantatity has been set to {quantity}.")
 
         else:
             print('Item value not in list, please pick another value.')
