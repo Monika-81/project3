@@ -20,41 +20,43 @@ def view_shopping_list():
     from both lists but only one heading.
     """
     
-    print('Welcome to your personal shopping list!\n')
-    print('Would you like to see a complete list?')
-    print('Or your editable shopping list?')
-    print('Choose between: Complete, Standard or Extra.\n')
-    list_choice = input('Please choose a list: \n').lower()
+    while True:
+        print('Welcome to your personal shopping list!\n')
+        print('Would you like to see a complete list?')
+        print('Or your editable shopping list?')
+        print('Choose between: Complete, Standard or Extra.\n')
+        list_choice = input('Please choose a list: \n').lower()
+        
+        if list_choice == 'standard':
+            print('You chose the standard shopping list.\n')
+            shop_list = SHEET.worksheet('standard').get_all_values()
+            pprint(shop_list)
+            break
 
-    if list_choice == 'standard':
-        print('You chose the standard shopping list.\n')
-        shop_list = SHEET.worksheet('standard').get_all_values()
-        pprint(shop_list)
+        elif list_choice == 'extra':
+            print('You chose the extra shopping list.\n')
+            shop_list = SHEET.worksheet('extra').get_all_values()
+            pprint(shop_list)
+            break
 
-    elif list_choice == 'extra':
-        print('You chose the extra shopping list.\n')
-        shop_list = SHEET.worksheet('extra').get_all_values()
-        pprint(shop_list)
+        elif list_choice == 'complete':
+            print('\nYou chose the complete shopping list.')
+            print('At the moment this list is view only.')
+            print('Choose another list if you like to edit the list.\n')
+            standard_list = SHEET.worksheet('standard').get_all_values()
+            extra_list = SHEET.worksheet('extra').get_all_values()
 
-    elif list_choice == 'complete':
-        print('\nYou chose the complete shopping list.')
-        print('At the moment this list is view only.')
-        print('Choose another list if you like to edit the list.\n')
-        standard_list = SHEET.worksheet('standard').get_all_values()
-        extra_list = SHEET.worksheet('extra').get_all_values()
+            headings = [standard_list[0]]
+            standard_list_values = standard_list[1:]
+            extra_list_values = extra_list[1:]
 
-        headings = [standard_list[0]]
-        standard_list_values = standard_list[1:]
-        extra_list_values = extra_list[1:]
-
-        shop_list = headings + standard_list_values + extra_list_values  ##add sort on location
-        pprint(shop_list)
-        main()
-
-    else:
-        print("Incorrect list choice. Please try again!\n")
-        main()
-
+            shop_list = headings + standard_list_values + extra_list_values  ##add sort on location
+            pprint(shop_list)
+            return False
+                       
+        else:
+            print("Incorrect list choice. Please try again!\n")
+            return False         
 
     return shop_list
 
