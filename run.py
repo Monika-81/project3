@@ -133,7 +133,6 @@ def check_item_in_worksheet(check_item, shopping_list):
                 
         if check_item in extra:
             update_value = (extra_col[index_num])
-            print(update_value)
 
             if update_value == 'yes':
                 check_position = int(extra.index(check_item))
@@ -144,6 +143,45 @@ def check_item_in_worksheet(check_item, shopping_list):
                 check_position = int(extra.index(check_item))
                 SHEET.worksheet('extra').update_cell(check_position + 1, 3, 'yes')
                 print(f"Item number {check_item} has been set to Yes!")
+
+        else:
+            print('Item value not in list, please pick another value.')
+
+    else:
+        print('Not possible to check complete list atm')  ##complete list is merger of two lists
+
+
+def change_quantity(check_item, shopping_list): ##change check-item name....
+    """
+    Changes the quantity of an item on the list.
+    """
+    index_num = int(check_item)
+    
+    if shopping_list == SHEET.worksheet('standard').get_all_values():
+        standard = SHEET.worksheet('standard').col_values(1)
+        standard_col = SHEET.worksheet('standard').col_values(4) 
+        
+        if check_item in standard:
+            update_value = standard_col[index_num]
+
+            check_position = int(standard.index(check_item))
+            SHEET.worksheet('standard').update_cell(check_position + 1, , quantity)
+            print(f"The quantatity of item number {check_item} has been set to {}.")
+            
+        else:
+            print('Item value not in list, please pick another value.')
+
+    elif shopping_list == SHEET.worksheet('extra').get_all_values():
+        extra = SHEET.worksheet('extra').col_values(1)
+        extra_col = SHEET.worksheet('extra').col_values(3) 
+                
+        if check_item in extra:
+            update_value = (extra_col[index_num])
+
+           
+            check_position = int(extra.index(check_item))
+            SHEET.worksheet('extra').update_cell(check_position + 1, 4, quantity)
+            print(f"The quantatity of item number {check_item} has been set to {}.")
 
         else:
             print('Item value not in list, please pick another value.')
