@@ -61,7 +61,8 @@ def view_shopping_list():
 
 def check_bought_item():
     """
-    Lets the user check of items already bought on the list.
+    Lets the user choose which item on the list to check as 
+    bought or if it needs to be bought.
     """
     while True:
         print('\nWould you like to check of an item?\n')
@@ -87,7 +88,8 @@ def check_bought_item():
 
 def validate_index(value):
     """
-    Validates item index as an integer.
+    Validates item index of chosen item as an integer.
+    Or informs the user to input a number.
     """
     try:
         value = int(value)  ##add validation of column length in list, and max int lenght after list lenght
@@ -99,8 +101,9 @@ def validate_index(value):
 
 def check_item_in_worksheet(check_item, shopping_list):
     """
-    Finds the item the user chose to check 
-    and changes the value in google sheet.
+    If the item the user chose to check is in the list,
+    the function finds the item and changes the value in 
+    google sheet to either yes or no (to buy or not to buy).
     """ 
     index_num = int(check_item)
     
@@ -142,15 +145,12 @@ def check_item_in_worksheet(check_item, shopping_list):
                 SHEET.worksheet('extra').update_cell(check_position + 1, 3, 'yes')
                 print(f"Item number {check_item} has been set to Yes!")
 
-            elif update_value == '':
-                print('no value')    
-
         else:
             print('Item value not in list, please pick another value.')
 
     else:
         print('Not possible to check complete list atm')  ##complete list is merger of two lists
-           
+
 
 def main():
     """
