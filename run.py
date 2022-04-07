@@ -145,21 +145,23 @@ def validate_index(value):
     return True
 
 
-def edit_action_event(edit_action_value, edit_item, shopping_list):
+def edit_action_event(edit_action_value, shopping_list):
     """
     Identifies the action the user like to proceed with.
     """
     if edit_action_value == '1':
+        edit_item = item_to_edit()
         check_item_in_worksheet(edit_item, shopping_list)
 
     elif edit_action_value == '2':
+        edit_item = item_to_edit()
         change_quantity(edit_item, shopping_list)
 
     # elif edit_action_value == '3':
     #     change_quantity(edit_item, shopping_list)
 
     elif edit_action_value == '4':
-        add_item(edit_item, shopping_list)
+        add_item(shopping_list)
 
     # elif edit_action_value == '4':
     #     change_quantity(edit_item, shopping_list)
@@ -259,11 +261,20 @@ def change_quantity(edit_item, shopping_list):
         print('Not possible to check complete list atm')  ##complete list is merger of two lists
 
     
-def add_item(edit_item, shopping_list):
+def add_item(shopping_list):
     """
     Adds an item row to chosen list.
     """
-    print(f'\nYou wish to add an item to the {shopping_list}list.')
+    print('\nYou wish to add an item to the list.\n')
+    item = input('Name of item:\n').lower()
+    quantity = input('Quantity: \n')
+    print('Location in store: "Vegetables", "Meat", "Deli", "Dairy", "Bakery", "Bevereges", ')
+    print('"Floral", "Personal care", "Dried bulk", "Personal care", "Household"\n')
+    location = input('Location in store: \n').lower()
+    print(f'Do you wish to add {item.upper()}, quantity of {quantity.upper()} at location {location.upper()} to the list?')
+
+
+
 
 
 def main():
@@ -273,9 +284,6 @@ def main():
     shopping_list = view_shopping_list()
     edit_list()
     edit_action_value = edit_menu()
-    edit_item = item_to_edit()
-    edit_action_event(edit_action_value, edit_item, shopping_list)
+    edit_action_event(edit_action_value, shopping_list)
     
-    
-
 main()
