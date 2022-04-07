@@ -22,24 +22,24 @@ def view_shopping_list():
     
     while True:
         print('Welcome to your personal shopping list!\n')
-        print('Would you like to see a complete list?')
-        print('Or your editable shopping list?')
-        print('Choose between: Complete, Standard or Extra.\n')
+        print('Would you like to view the complete list?')
+        print('Or your editable shopping lists?')
+        print('Choose between: Complete (c), Standard (s) or Extra (e).\n')
         list_choice = input('Please choose a list: \n').lower()
         
-        if list_choice == 'standard':
+        if list_choice == 's':
             print('You chose the standard shopping list.\n')
             shop_list = SHEET.worksheet('standard').get_all_values()
             pprint(shop_list)
             break
 
-        elif list_choice == 'extra':
+        elif list_choice == 'e':
             print('You chose the extra shopping list.\n')
             shop_list = SHEET.worksheet('extra').get_all_values()
             pprint(shop_list)
             break
 
-        elif list_choice == 'complete':
+        elif list_choice == 'c':
             print('\nYou chose the complete shopping list.')
             print('At the moment this list is view only.')
             print('Choose another list if you like to edit the list.\n')
@@ -55,7 +55,7 @@ def view_shopping_list():
             print('\nThis list is view ONLY.\n')
                        
         else:
-            print("Incorrect list choice. Please try again!\n")
+            print("Incorrect list choice, typ 'c', 's' or 'e'. Please try again!\n")
         
 
     return shop_list
@@ -102,15 +102,16 @@ def validate_action(value):
     Validates item index of chosen item as an integer.
     Or informs the user to input a number.
     """
-    menu_range = range(1,6)
-    try:
-        value = int(value)
-        if value in menu_range:
-            print(f'You chose action no. {value}')
+    while True:
+        menu_range = range(1,6)
+        try:
+            value = int(value)
+            if value in menu_range:
+                break
 
-    except ValueError:
-        print(f'You need to choose a number between 1 - 5, you chose {value}. Please try again!\n')
-        return False
+        except ValueError:
+            print(f'You need to choose a number between 1 - 5, you chose {value}. Please try again!\n')
+            return False
 
     return True
 
@@ -120,7 +121,7 @@ def item_to_edit():
     Lets the user choose which item on the list to edit.
     """
     while True:
-        print('Choose the number of the item you like to edit.\n')
+        print('\nChoose the number of the item you like to edit.\n')
         item_index = input('Item number:')
             
         if validate_int(item_index):
