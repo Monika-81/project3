@@ -59,24 +59,23 @@ def view_shopping_list():
     return shop_list
     
 
-def check_bought_item():
+def item_to_edit():
     """
-    Lets the user choose which item on the list to check as 
-    bought or if it needs to be bought.
+    Lets the user choose which item on the list to edit.
     """
     while True:
-        print('\nWould you like to check of an item?\n')
-        check_item = input('Y/N?\n').lower()
+        print('\nWould you like to edit an item?\n')
+        edit_item = input('Y/N?\n').lower()
 
-        if check_item == 'y':
-            print('Choose the number of the item you like to check.\n')
+        if edit_item == 'y':
+            print('Choose the number of the item you like to edit.\n')
             item_index = input('Item number:')
             
             if validate_index(item_index):
                 print('Valid input.')
                 break
 
-        elif check_item == 'n':
+        elif edit_item == 'n':
             print('Going back to the main menu.\n')
             main()
 
@@ -99,30 +98,71 @@ def validate_index(value):
 
     return True
 
-def check_item_in_worksheet(check_item, shopping_list):
+def edit_menu(edit_item):
+    """
+    Displays a menu to let the user choose how to edit the item picked.
+    """    
+    print('\nChoose an edit action:\n')
+    print('     1. Check item')
+    print('     2. Change quantity')
+    print('     3. Change location')
+    print('     4. Add an item')
+    print('     5. Delete item')
+
+    while True:
+        edit_action = input('Action number:')
+        if validate_action(edit_action):
+            print('Input valid')
+            break
+
+        else:
+            print('wrong')
+        
+    return edit_action
+
+
+def validate_action(value):
+    """
+    Validates item index of chosen item as an integer.
+    Or informs the user to input a number.
+    """
+    menu_range = range(1,6)
+    try:
+        value = int(value)
+        if value in menu_range:
+            print(f'You chose action no. {value}')
+
+    except ValueError:
+        print(f"You need to choose a number between 1 - 5, you chose {value}. Please try again!\n")
+        return False
+
+    return True    
+
+
+def check_item_in_worksheet(edit_item, shopping_list):
     """
     If the item the user chose to check is in the list,
     the function finds the item and changes the value in 
     google sheet to either yes or no (to buy or not to buy).
     """ 
-    index_num = int(check_item)
+    index_num = int(edit_item)
     
     if shopping_list == SHEET.worksheet('standard').get_all_values():
         standard = SHEET.worksheet('standard').col_values(1)
         standard_col = SHEET.worksheet('standard').col_values(3) 
         
-        if check_item in standard:
+        if edit_item in standard:
             update_value = standard_col[index_num]
 
             if update_value == 'yes':
-                check_position = int(standard.index(check_item))
+                check_position = int(standard.index(edit_item))
                 SHEET.worksheet('standard').update_cell(check_position + 1, 3, 'no')
-                print(f"Item number {check_item} has been set to No!")
+                print(f"Item number {edit_item} has been set to No!")
             
             elif update_value == 'no':
-                check_position = int(standard.index(check_item))
+                check_position = int(standard.index(edit_item))
                 SHEET.worksheet('standard').update_cell(check_position + 1, 3, 'yes')
-                print(f"Item number {check_item} has been set to Yes!")
+                print(f"Item number {edit_item} has been set to Yes!")
             
         else:
             print('Item value not in list, please pick another value.')
@@ -131,18 +171,18 @@ def check_item_in_worksheet(check_item, shopping_list):
         extra = SHEET.worksheet('extra').col_values(1)
         extra_col = SHEET.worksheet('extra').col_values(3) 
                 
-        if check_item in extra:
+        if edit_item in extra:
             update_value = (extra_col[index_num])
 
             if update_value == 'yes':
-                check_position = int(extra.index(check_item))
+                check_position = int(extra.index(edit_item))
                 SHEET.worksheet('extra').update_cell(check_position + 1, 3, 'no')
-                print(f"Item number {check_item} has been set to No!")
+                print(f"Item number {edit_item} has been set to No!")
             
             elif update_value == 'no':
-                check_position = int(extra.index(check_item))
+                check_position = int(extra.index(edit_item))
                 SHEET.worksheet('extra').update_cell(check_position + 1, 3, 'yes')
-                print(f"Item number {check_item} has been set to Yes!")
+                print(f"Item number {edit_item} has been set to Yes!")
 
         else:
             print('Item value not in list, please pick another value.')
@@ -151,22 +191,21 @@ def check_item_in_worksheet(check_item, shopping_list):
         print('Not possible to check complete list atm')  ##complete list is merger of two lists
 
 
-def change_quantity(check_item, shopping_list): ##change check-item name....
+def change_quantity(edit_item, shopping_list): ##change check-item name....
     """
     Changes the quantity of an item on the list.
     """
-    index_num = int(check_item)
+    index_num = int(edit_item)
     
     if shopping_list == SHEET.worksheet('standard').get_all_values():
         standard = SHEET.worksheet('standard').col_values(1)
         standard_col = SHEET.worksheet('standard').col_values(4) 
         
-        if check_item in standard:
-            update_value = standard_col[index_num]
+        if edit_item in standard:
 
-            check_position = int(standard.index(check_item))
-            SHEET.worksheet('standard').update_cell(check_position + 1, , quantity)
-            print(f"The quantatity of item number {check_item} has been set to {}.")
+            check_position = int(standard.index(edit_item))
+            SHEET.worksheet('standard').update_cell(check_position + 1, 4, quantity)
+            print(f"The quantatity of item number {edit_item} has been set to {quantity}.")
             
         else:
             print('Item value not in list, please pick another value.')
@@ -175,13 +214,11 @@ def change_quantity(check_item, shopping_list): ##change check-item name....
         extra = SHEET.worksheet('extra').col_values(1)
         extra_col = SHEET.worksheet('extra').col_values(3) 
                 
-        if check_item in extra:
-            update_value = (extra_col[index_num])
-
+        if edit_item in extra:
            
-            check_position = int(extra.index(check_item))
+            check_position = int(extra.index(edit_item))
             SHEET.worksheet('extra').update_cell(check_position + 1, 4, quantity)
-            print(f"The quantatity of item number {check_item} has been set to {}.")
+            print(f"The quantatity of item number {edit_item} has been set to {quantity}.")
 
         else:
             print('Item value not in list, please pick another value.')
@@ -195,7 +232,9 @@ def main():
     Run all program functions.
     """
     shopping_list = view_shopping_list()
-    check_item = check_bought_item()
-    check_item_in_worksheet(check_item, shopping_list)
+    edit_item = item_to_edit()
+    edit_menu(edit_item)
+    # check_item_in_worksheet(edit_item, shopping_list)
+    # change_quantity(edit_item, shopping_list)
 
 main()
