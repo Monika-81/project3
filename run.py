@@ -107,16 +107,13 @@ def edit_menu(edit_item):
     print('     2. Change quantity')
     print('     3. Change location')
     print('     4. Add an item')
-    print('     5. Delete item')
+    print('     5. Delete item\n')
 
     while True:
         edit_action = input('Action number:')
         if validate_action(edit_action):
             print('Input valid')
             break
-
-        else:
-            print('wrong')
         
     return edit_action
 
@@ -136,7 +133,30 @@ def validate_action(value):
         print(f"You need to choose a number between 1 - 5, you chose {value}. Please try again!\n")
         return False
 
-    return True    
+    return True  
+
+
+def edit_action_event(edit_action_value, edit_item, shopping_list):
+    """
+    Identifies the action the user like to proceed with.
+    """
+    if edit_action_value == '1':
+        check_item_in_worksheet(edit_item, shopping_list)
+
+    elif edit_action_value == '2':
+        change_quantity(edit_item, shopping_list)
+
+    # elif edit_action_value == '3':
+    #     change_quantity(edit_item, shopping_list)
+
+    # elif edit_action_value == '4':
+    #     change_quantity(edit_item, shopping_list)
+
+    # elif edit_action_value == '4':
+    #     change_quantity(edit_item, shopping_list)
+    
+    else:
+        print('Something went wrong, please restart the program.')
 
 
 def check_item_in_worksheet(edit_item, shopping_list):
@@ -191,11 +211,12 @@ def check_item_in_worksheet(edit_item, shopping_list):
         print('Not possible to check complete list atm')  ##complete list is merger of two lists
 
 
-def change_quantity(edit_item, shopping_list): ##change check-item name....
+def change_quantity(edit_item, shopping_list): 
     """
     Changes the quantity of an item on the list.
     """
     index_num = int(edit_item)
+    quantity = input('Input new quantity value:\n')
     
     if shopping_list == SHEET.worksheet('standard').get_all_values():
         standard = SHEET.worksheet('standard').col_values(1)
@@ -233,7 +254,9 @@ def main():
     """
     shopping_list = view_shopping_list()
     edit_item = item_to_edit()
-    edit_menu(edit_item)
+    edit_action_value = edit_menu(edit_item)
+    edit_action_event(edit_action_value, edit_item, shopping_list)
+    
     # check_item_in_worksheet(edit_item, shopping_list)
     # change_quantity(edit_item, shopping_list)
 
