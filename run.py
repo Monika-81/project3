@@ -112,9 +112,8 @@ def validate_action(value):
         print(f"You need to choose a number between 1 - 5, you chose {value}. Please try again!\n")
         return False
 
-    return True  
+    return True
 
-    
 
 def item_to_edit():
     """
@@ -221,7 +220,7 @@ def check_item_in_worksheet(edit_item, shopping_list):
             print('Item value not in list, please pick another value.')
 
     else:
-        print('Not possible to check complete list atm')  ##complete list is merger of two lists
+        print('Not possible to edit complete list atm')  ##complete list is merger of two lists
 
 
 def change_quantity(edit_item, shopping_list): 
@@ -260,7 +259,7 @@ def change_quantity(edit_item, shopping_list):
             print('Item value not in list, please pick another value.')
 
     else:
-        print('Not possible to check complete list atm')  ##complete list is merger of two lists
+        print('Not possible to edit complete list atm')  ##complete list is merger of two lists
 
     
 def add_item(shopping_list):
@@ -268,15 +267,42 @@ def add_item(shopping_list):
     Adds an item row to chosen list.
     """
     print('\nYou wish to add an item to the list.\n')
-    item = input('Name of item:\n').lower()
+    item = input('Name of item:\n').capitalize()
+
     quantity = input('Quantity: \n')
-    print('Location in store: "Vegetables", "Meat", "Deli", "Dairy", "Bakery", "Bevereges", ')
-    print('"Floral", "Personal care", "Dried bulk", "Personal care", "Household"\n')
-    location = input('Location in store: \n').lower()
-    print(f'Do you wish to add {item.upper()}, quantity of {quantity.upper()} at location {location.upper()} to the list?')
 
+    print('Location in store: "Bakery", "Bevereges", "Bulk", "Dairy", "Deli",')
+    print(' "Floral", "Household", "Meat", "Personal care" "Vegetables" \n')
+    location = input('Location in store: \n').capitalize()
 
+    print(f'Do you wish to add {item}, quantity of {quantity} at location {location} to the list?')
 
+    add_acceptance = input('Y/N?:\n')
+    if add_acceptance == 'y':
+        if shopping_list == SHEET.worksheet('standard').get_all_values():
+            standard = SHEET.worksheet('standard').col_values(1)
+            
+            new_index = (int(standard[-1]) + 1)
+            add_row = [new_index] + [item] + ['yes'] + [quantity] + [location]
+            SHEET.worksheet('standard').append_row(add_row)
+            print('\nNew item added to list.')
+        
+        elif shopping_list == SHEET.worksheet('extra').get_all_values():
+            extra = SHEET.worksheet('extra').col_values(1)
+
+            new_index = (int(extra[-1]) + 1)
+            add_row = [new_index] + [item] + ['yes'] + [quantity] + [location]
+            SHEET.worksheet('extra').append_row(add_row)
+            print('\nNew item added to list.')
+
+        else:
+            print('Not possible to edit complete list atm')    
+ 
+    elif add_acceptance == 'n':
+        print('Going back to the main menu.\n')
+        main()
+    else:
+        print('Wrong input, please try again.\n')  
 
 
 def main():
