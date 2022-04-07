@@ -106,28 +106,51 @@ def check_item_in_worksheet(check_item, shopping_list):
     
     if shopping_list == SHEET.worksheet('standard').get_all_values():
         standard = SHEET.worksheet('standard').col_values(1)
+        standard_col = SHEET.worksheet('standard').col_values(3) 
         
         if check_item in standard:
-            standard_col = SHEET.worksheet('standard').col_values(3) 
-            print(standard_col[index_num])
+            update_value = standard_col[index_num]
+
+            if update_value == 'yes':
+                check_position = int(standard.index(check_item))
+                SHEET.worksheet('standard').update_cell(check_position + 1, 3, 'no')
+                print(f"Item number {check_item} has been set to No!")
+            
+            elif update_value == 'no':
+                check_position = int(standard.index(check_item))
+                SHEET.worksheet('standard').update_cell(check_position + 1, 3, 'yes')
+                print(f"Item number {check_item} has been set to Yes!")
             
         else:
             print('Item value not in list, please pick another value.')
 
     elif shopping_list == SHEET.worksheet('extra').get_all_values():
-        extra = SHEET.worksheet('extra').col_values(1)   
-        
+        extra = SHEET.worksheet('extra').col_values(1)
+        extra_col = SHEET.worksheet('extra').col_values(3) 
+                
         if check_item in extra:
-            extra_col = SHEET.worksheet('extra').col_values(3) 
-            print(extra_col[index_num])
+            update_value = (extra_col[index_num])
+            print(update_value)
+
+            if update_value == 'yes':
+                check_position = int(extra.index(check_item))
+                SHEET.worksheet('extra').update_cell(check_position + 1, 3, 'no')
+                print(f"Item number {check_item} has been set to No!")
+            
+            elif update_value == 'no':
+                check_position = int(extra.index(check_item))
+                SHEET.worksheet('extra').update_cell(check_position + 1, 3, 'yes')
+                print(f"Item number {check_item} has been set to Yes!")
+
+            elif update_value == '':
+                print('no value')    
 
         else:
             print('Item value not in list, please pick another value.')
 
     else:
         print('Not possible to check complete list atm')  ##complete list is merger of two lists
-        main()
-    
+           
 
 def main():
     """
@@ -136,6 +159,5 @@ def main():
     shopping_list = view_shopping_list()
     check_item = check_bought_item()
     check_item_in_worksheet(check_item, shopping_list)
-
 
 main()
