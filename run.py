@@ -109,7 +109,7 @@ def validate_action(value):
             print(f'You chose action no. {value}')
 
     except ValueError:
-        print(f"You need to choose a number between 1 - 5, you chose {value}. Please try again!\n")
+        print(f'You need to choose a number between 1 - 5, you chose {value}. Please try again!\n')
         return False
 
     return True
@@ -123,7 +123,7 @@ def item_to_edit():
         print('Choose the number of the item you like to edit.\n')
         item_index = input('Item number:')
             
-        if validate_index(item_index):
+        if validate_int(item_index):
             break
 
         else:
@@ -132,7 +132,7 @@ def item_to_edit():
     return item_index
         
 
-def validate_index(value):
+def validate_int(value):
     """
     Validates item index of chosen item as an integer.
     Or informs the user to input a number.
@@ -140,7 +140,7 @@ def validate_index(value):
     try:
         value = int(value)  ##add validation of column length in list, and max int lenght after list lenght
     except ValueError:
-        print(f"Invalid data: {value} is not a whole number (no decimals). Please try again! \n")
+        print(f'Invalid data: {value} is not a whole number (no decimals). Please try again! \n')
         return False
 
     return True
@@ -197,7 +197,7 @@ def check_item_in_worksheet(edit_item, shopping_list):
                 print(f"Item number {edit_item} has been set to Yes!")
             
         else:
-            print('Item value not in list, please pick another value.')
+            print('Item value not in list, please pick another value.\n')
 
     elif shopping_list == SHEET.worksheet('extra').get_all_values():
         extra = SHEET.worksheet('extra').col_values(1)
@@ -217,7 +217,7 @@ def check_item_in_worksheet(edit_item, shopping_list):
                 print(f"Item number {edit_item} has been set to Yes!")
 
         else:
-            print('Item value not in list, please pick another value.')
+            print('Item value not in list, please pick another value.\n')
 
     else:
         print('Not possible to edit complete list atm')  ##complete list is merger of two lists
@@ -229,7 +229,7 @@ def change_quantity(edit_item, shopping_list):
     """  
     while True:
         quantity = input('Input new quantity value:\n')  
-        if validate_index(quantity):
+        if validate_int(quantity):
             break
         else:
             print('Please insert a whole numeric number.')
@@ -244,7 +244,7 @@ def change_quantity(edit_item, shopping_list):
             print(f"The quantatity has been set to {quantity}.")
             
         else:
-            print('Item value not in list, please pick another value.')
+            print('Item value not in list, please pick another value.\n')
 
     elif shopping_list == SHEET.worksheet('extra').get_all_values():
         extra = SHEET.worksheet('extra').col_values(1)
@@ -256,7 +256,7 @@ def change_quantity(edit_item, shopping_list):
             print(f"The quantatity has been set to {quantity}.")
 
         else:
-            print('Item value not in list, please pick another value.')
+            print('Item value not in list, please pick another value.\n')
 
     else:
         print('Not possible to edit complete list atm')  ##complete list is merger of two lists
@@ -266,14 +266,35 @@ def add_item(shopping_list):
     """
     Adds an item row to chosen list.
     """
-    print('\nYou wish to add an item to the list.\n')
-    item = input('Name of item:\n').capitalize()
+    while True:
+        print('\nYou wish to add an item to the list.\n')
+        item = input('Name of item:\n').capitalize()
+        if item.isalpha():
+            break
+        else:
+            print('Input needs to be alphabetic. Try again.\n')
+    
+    while True:
+        quantity = input('Quantity: \n')
+        try:
+            quantity = int(quantity)
+            if quantity in range(0,100):
+                break
+            else:
+                print('Max quantity is 100. Please try again.\n')
 
-    quantity = input('Quantity: \n')
+        except ValueError:
+            print(f'Invalid data: {quantity} is not a whole number (no decimals). Please try again!\n')
 
-    print('Location in store: "Bakery", "Bevereges", "Bulk", "Dairy", "Deli",')
-    print(' "Floral", "Household", "Meat", "Personal care" "Vegetables" \n')
-    location = input('Location in store: \n').capitalize()
+    while True:
+        print('Location in store exampel: "Bakery", "Bevereges", "Bulk", "Dairy", "Deli",')
+        print(' "Floral", "Household", "Meat", "Personal care" "Vegetables" \n')
+        location = input('Location in store: \n').capitalize()
+
+        if location.isalpha():
+            break
+        else:
+            print('Input needs to be alphabetic. Try again.\n')
 
     print(f'Do you wish to add {item}, quantity of {quantity} at location {location} to the list?')
 
@@ -299,10 +320,23 @@ def add_item(shopping_list):
             print('Not possible to edit complete list atm')    
  
     elif add_acceptance == 'n':
-        print('Going back to the main menu.\n')
-        main()
+        print('Going back to add item.\n')
+        add_item(shopping_list)
+
     else:
-        print('Wrong input, please try again.\n')  
+        print('Wrong input, please try again.\n')
+        add_item(shopping_list)
+
+# def validate_new_row():
+#     """
+#     Validates input supplied for the new item to add at list 
+#     """
+#     try:
+#         if item == isalpha(item):
+#             pass
+#         else:
+
+
 
 
 def main():
