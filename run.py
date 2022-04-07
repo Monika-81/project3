@@ -52,11 +52,11 @@ def view_shopping_list():
 
             shop_list = headings + standard_list_values + extra_list_values  ##add sort on location
             pprint(shop_list)
-            return False
+            print('\nThis list is view ONLY.\n')
                        
         else:
             print("Incorrect list choice. Please try again!\n")
-            return False         
+        
 
     return shop_list
 
