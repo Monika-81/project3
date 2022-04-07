@@ -66,7 +66,7 @@ def edit_list():
     Lets the user choose if they like to edit the list.
     """
     print('\nWould you like to edit the list?\n')
-    edit = input('Y/N?\n').lower()
+    edit = input('Y/N?: ').lower()
 
     if edit == 'y':
         pass
@@ -165,8 +165,9 @@ def edit_action_event(edit_action_value, shopping_list):
     elif edit_action_value == '4':
         add_item(shopping_list)
 
-    # elif edit_action_value == '4':
-    #     change_quantity(edit_item, shopping_list)
+    elif edit_action_value == '5':
+        edit_item = item_to_edit()
+        delete_item(edit_item, shopping_list)
     
     else:
         print('Something went wrong, please restart the program.')
@@ -265,19 +266,23 @@ def change_quantity(edit_item, shopping_list):
     
 def add_item(shopping_list):
     """
-    Adds an item row to chosen list.
+    Asks the user what values they like to pass to the new row. 
+    Validates the numbers and asks the user to verify they want to 
+    add input values as a new row on chosen list.
     """
     while True:
         print('\nYou wish to add an item to the list.\n')
         item = input('Name of item:\n').capitalize()
-        if item.isalpha():
+        
+        if item.isalpha(): ##input validation
             break
         else:
             print('Input needs to be alphabetic. Try again.\n')
     
     while True:
         quantity = input('Quantity: \n')
-        try:
+        
+        try: ##input validation
             quantity = int(quantity)
             if quantity in range(0,100):
                 break
@@ -292,14 +297,14 @@ def add_item(shopping_list):
         print(' "Floral", "Household", "Meat", "Personal care" "Vegetables" \n')
         location = input('Location in store: \n').capitalize()
 
-        if location.isalpha():
+        if location.isalpha(): ##input validation
             break
         else:
             print('Input needs to be alphabetic. Try again.\n')
 
     print(f'Do you wish to add {item}, quantity of {quantity} at location {location} to the list?')
 
-    add_acceptance = input('Y/N?:\n')
+    add_acceptance = input('Y/N?: ') 
     if add_acceptance == 'y':
         if shopping_list == SHEET.worksheet('standard').get_all_values():
             standard = SHEET.worksheet('standard').col_values(1)
@@ -328,22 +333,36 @@ def add_item(shopping_list):
         print('Wrong input, please try again.\n')
         add_item(shopping_list)
 
-# def validate_new_row():
-#     """
-#     Validates input supplied for the new item to add at list 
-#     """
-#     try:
-#         if item == isalpha(item):
-#             pass
-#         else:
 
+def delete_item(edit_item, shopping_list):
+    """
+    Deletes the item the user chooses from the current list.
+    """
+    while True:
+        if shopping_list == SHEET.worksheet('standard').get_all_values():
+            standard = SHEET.worksheet('standard').col_values(1)
+            index_num = int(edit_item)
+            if edit_item in standard:
+                delete_row = (shopping_list[index_num])
+                print(delete_row)
+                print(f'Are you sure you want to delete row {delete_row}')
+                verify_delete = input('Y/N?: ')
 
+                if verify_delete == 'y':
+                    SHEET.worksheet('standard').delete_rows((index_num) + 1)
 
+                elif verify_delete == 'n':
+                    print('Item not deleted. Please make a new choice of action.\n')
+                    break
+
+                else:  
+                    ('Please try again. Choose yes (y) or no (n).')
+                    return False
 
 def main():
     """
     Run all program functions.
-    """
+    """ 
     shopping_list = view_shopping_list()
     edit_list()
     edit_action_value = edit_menu()
