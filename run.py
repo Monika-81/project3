@@ -55,51 +55,30 @@ def view_shopping_list():
         print("Incorrect list choice. Please try again!\n")
         main()
 
-    
+
     return shop_list
-    
 
-def item_to_edit():
+
+def edit_list():
     """
-    Lets the user choose which item on the list to edit.
+    Lets the user choose if they like to edit the list.
     """
-    while True:
-        print('\nWould you like to edit an item?\n')
-        edit_item = input('Y/N?\n').lower()
+    print('\nWould you like to edit the list?\n')
+    edit = input('Y/N?\n').lower()
 
-        if edit_item == 'y':
-            print('Choose the number of the item you like to edit.\n')
-            item_index = input('Item number:')
-            
-            if validate_index(item_index):
-                break
+    if edit == 'y':
+        pass
 
-        elif edit_item == 'n':
-            print('Going back to the main menu.\n')
-            main()
+    elif edit == 'n':
+        print('Going back to the main menu.\n')
+        main()
+    else:
+        print('Wrong input, please try again.\n')  
 
-        else:
-            print('Wrong input, please try again.\n')   
-    
-    return item_index
-        
 
-def validate_index(value):
+def edit_menu():
     """
-    Validates item index of chosen item as an integer.
-    Or informs the user to input a number.
-    """
-    try:
-        value = int(value)  ##add validation of column length in list, and max int lenght after list lenght
-    except ValueError:
-        print(f"Invalid data: {value} is not a whole number (no decimals). Please try again! \n")
-        return False
-
-    return True
-
-def edit_menu(edit_item):
-    """
-    Displays a menu to let the user choose how to edit the item picked.
+    Displays a menu to let the user choose how to edit the list.
     """    
     print('\nChoose an edit action:\n')
     print('     1. Check item')
@@ -133,6 +112,38 @@ def validate_action(value):
 
     return True  
 
+    
+
+def item_to_edit():
+    """
+    Lets the user choose which item on the list to edit.
+    """
+    while True:
+        print('Choose the number of the item you like to edit.\n')
+        item_index = input('Item number:')
+            
+        if validate_index(item_index):
+            break
+
+        else:
+            print('Wrong input, please try again.\n')   
+    
+    return item_index
+        
+
+def validate_index(value):
+    """
+    Validates item index of chosen item as an integer.
+    Or informs the user to input a number.
+    """
+    try:
+        value = int(value)  ##add validation of column length in list, and max int lenght after list lenght
+    except ValueError:
+        print(f"Invalid data: {value} is not a whole number (no decimals). Please try again! \n")
+        return False
+
+    return True
+
 
 def edit_action_event(edit_action_value, edit_item, shopping_list):
     """
@@ -147,8 +158,8 @@ def edit_action_event(edit_action_value, edit_item, shopping_list):
     # elif edit_action_value == '3':
     #     change_quantity(edit_item, shopping_list)
 
-    # elif edit_action_value == '4':
-    #     change_quantity(edit_item, shopping_list)
+    elif edit_action_value == '4':
+        add_item(edit_item, shopping_list)
 
     # elif edit_action_value == '4':
     #     change_quantity(edit_item, shopping_list)
@@ -225,8 +236,8 @@ def change_quantity(edit_item, shopping_list):
         
         if edit_item in standard:
 
-            check_position = int(standard.index(edit_item))
-            SHEET.worksheet('standard').update_cell(check_position + 1, 4, quantity)
+            position = int(standard.index(edit_item))
+            SHEET.worksheet('standard').update_cell(position + 1, 4, quantity)
             print(f"The quantatity has been set to {quantity}.")
             
         else:
@@ -237,8 +248,8 @@ def change_quantity(edit_item, shopping_list):
                 
         if edit_item in extra:
            
-            check_position = int(extra.index(edit_item))
-            SHEET.worksheet('extra').update_cell(check_position + 1, 4, quantity)
+            position = int(extra.index(edit_item))
+            SHEET.worksheet('extra').update_cell(position + 1, 4, quantity)
             print(f"The quantatity has been set to {quantity}.")
 
         else:
@@ -247,17 +258,24 @@ def change_quantity(edit_item, shopping_list):
     else:
         print('Not possible to check complete list atm')  ##complete list is merger of two lists
 
+    
+def add_item(edit_item, shopping_list):
+    """
+    Adds an item row to chosen list.
+    """
+    print(f'\nYou wish to add an item to the {shopping_list}list.')
+
 
 def main():
     """
     Run all program functions.
     """
     shopping_list = view_shopping_list()
+    edit_list()
+    edit_action_value = edit_menu()
     edit_item = item_to_edit()
-    edit_action_value = edit_menu(edit_item)
     edit_action_event(edit_action_value, edit_item, shopping_list)
     
-    # check_item_in_worksheet(edit_item, shopping_list)
-    # change_quantity(edit_item, shopping_list)
+    
 
 main()
