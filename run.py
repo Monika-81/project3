@@ -103,18 +103,17 @@ def validate_action(value):
     Validates item index of chosen item as an integer.
     Or informs the user to input a number.
     """
-    while True:
-        menu_range = range(1,6)
-        try:
-            value = int(value)
-            if value in menu_range:
-                break
-
-        except ValueError:
+    menu_range = range(1,6)
+    try:
+        value = int(value)
+        if value in menu_range:
+            return True
+        
+        elif value > 5:
             print(f'You need to choose a number between 1 - 5, you chose {value}. Please try again!\n')
-            return False
 
-    return True
+    except ValueError:
+        print(f'You need to choose a number between 1 - 5, you chose {value}. Please try again!\n')
 
 
 def item_to_edit():
@@ -352,17 +351,16 @@ def delete_item(edit_item, shopping_list):
 
                 if verify_delete == 'y':
                     SHEET.worksheet('standard').delete_rows((index_num) + 1)
-                    print('Row deleted')
                     
                     ##Updates item index to correct index number
                     standard = SHEET.worksheet('standard').col_values(1)
-
                     for i in range(len(standard)):
                         i = int(i)
                         standard[i] = 0 + 1
                         SHEET.worksheet('standard').update_cell(i + 1, 1, i)
                     
-                    SHEET.worksheet('standard').update_cell(1, 1, 'Index')                  
+                    SHEET.worksheet('standard').update_cell(1, 1, 'Index')
+                    print('Row deleted')              
                     break
 
                 elif verify_delete == 'n':
@@ -385,17 +383,16 @@ def delete_item(edit_item, shopping_list):
 
                 if verify_delete == 'y':
                     SHEET.worksheet('extra').delete_rows((index_num) + 1)
-                    print('Row deleted')
 
                     ##Updates item index to correct index number
                     extra = SHEET.worksheet('extra').col_values(1)
-
                     for i in range(len(extra)):
                         i = int(i)
                         extra[i] = 0 + 1
                         SHEET.worksheet('extra').update_cell(i + 1, 1, i)
 
-                    SHEET.worksheet('extra').update_cell(1, 1, 'Index')    
+                    SHEET.worksheet('extra').update_cell(1, 1, 'Index')
+                    print('Row deleted')    
                     break
 
                 elif verify_delete == 'n':
