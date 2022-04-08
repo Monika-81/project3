@@ -109,7 +109,7 @@ def validate_action(value):
         value = int(value)
         if value in menu_range:
             print(f'You choose action {value}. Is this correct?')
-            validate_option = input('Y/N?\n')
+            validate_option = input('Y/N?\n').lower()
             if validate_option == 'y':
                 pass
             elif validate_option == 'n':
@@ -136,8 +136,12 @@ def item_to_edit():
         item_index = input('Item number:\n')
             
         if validate_int(item_index):
-            break
-
+            print((f'You chose item no. {item_index}. Is that correct?'))
+            validate_item = input('Y/N?\n').lower()
+            if validate_item == 'y':
+                break
+            elif validate_item == 'n':
+                print('Please choose another item number.')
         else:
             print('Wrong input, please try again.\n')   
     
