@@ -29,7 +29,7 @@ def view_shopping_list():
         
         if list_choice == 's':
             print('You chose the standard shopping list.\n')
-            shop_list = SHEET.worksheet('standard').get_all_values()
+            shop_list = SHEET.worksheet('standard').get_all_values()             
             pprint(shop_list)
             break
 
@@ -65,17 +65,18 @@ def edit_list():
     """
     Lets the user choose if they like to edit the list.
     """
-    print('\nWould you like to edit the list?\n')
-    edit = input('Y/N?:\n').lower()
+    while True:
+        print('\nWould you like to edit the list?\n')
+        edit = input('Y/N?:\n').lower()
 
-    if edit == 'y':
-        pass
-
-    elif edit == 'n':
-        print('Going back to the main menu.\n')
-        main()
-    else:
-        print('Wrong input, please try again.\n')  
+        if edit == 'y':
+            break
+        elif edit == 'n':
+            print('Going back to the main menu.\n')
+            main()
+        else:
+            print('Wrong input, please try again.\n') 
+            
 
 
 def edit_menu():
@@ -352,6 +353,16 @@ def delete_item(edit_item, shopping_list):
                 if verify_delete == 'y':
                     SHEET.worksheet('standard').delete_rows((index_num) + 1)
                     print('Row deleted')
+                    
+                    ##Updates item index to correct index number
+                    standard = SHEET.worksheet('standard').col_values(1)
+
+                    for i in range(len(standard)):
+                        i = int(i)
+                        standard[i] = 0 + 1
+                        SHEET.worksheet('standard').update_cell(i + 1, 1, i)
+                    
+                    SHEET.worksheet('standard').update_cell(1, 1, 'Index')                  
                     break
 
                 elif verify_delete == 'n':
@@ -375,6 +386,16 @@ def delete_item(edit_item, shopping_list):
                 if verify_delete == 'y':
                     SHEET.worksheet('extra').delete_rows((index_num) + 1)
                     print('Row deleted')
+
+                    ##Updates item index to correct index number
+                    extra = SHEET.worksheet('extra').col_values(1)
+
+                    for i in range(len(extra)):
+                        i = int(i)
+                        extra[i] = 0 + 1
+                        SHEET.worksheet('extra').update_cell(i + 1, 1, i)
+
+                    SHEET.worksheet('extra').update_cell(1, 1, 'Index')    
                     break
 
                 elif verify_delete == 'n':
