@@ -333,7 +333,7 @@ def add_item(shopping_list):
 
     print(f'Do you wish to add {item}, quantity of {quantity} at location {location} to the list?')
 
-    add_acceptance = input('Y/N?:\n') 
+    add_acceptance = input('Y/N? Or Q to choose another action:\n') 
     if add_acceptance == 'y':
         if shopping_list == SHEET.worksheet('standard').get_all_values():
             standard = SHEET.worksheet('standard').col_values(1)
@@ -341,22 +341,47 @@ def add_item(shopping_list):
             new_index = (int(standard[-1]) + 1)
             add_row = [new_index] + [item] + ['yes'] + [quantity] + [location]
             SHEET.worksheet('standard').append_row(add_row)
-            print('\nNew item added to list.')
-        
+            print('\nNew item added to list.\n')
+
+            print('Would you like to add another item?')
+            add_again = input('Y/N?\n')
+            if add_again == 'y':
+                add_item(shopping_list)
+            elif add_again == 'n':
+                print('Going back to main menu.\n')
+                main()
+            else:
+                ('Invalid input')
+                main()
+
         elif shopping_list == SHEET.worksheet('extra').get_all_values():
             extra = SHEET.worksheet('extra').col_values(1)
 
             new_index = (int(extra[-1]) + 1)
             add_row = [new_index] + [item] + ['yes'] + [quantity] + [location]
             SHEET.worksheet('extra').append_row(add_row)
-            print('\nNew item added to list.')
+            print('\nNew item added to list.\n')
+
+            print('Would you like to add another item?')
+            add_again = input('Y/N?\n')
+            if add_again == 'y':
+                add_item(shopping_list)
+            elif add_again == 'n':
+                print('Going back to main menu.\n')
+                main()
+            else:
+                ('Invalid input')
+                main()
 
         else:
             print('Not possible to edit complete list atm')    
  
     elif add_acceptance == 'n':
-        print('Going back to add item.\n')
+        print('Going back to add new item...\n')
         add_item(shopping_list)
+    
+    elif add_acceptance == 'q':
+        edit_menu()
 
     else:
         print('Wrong input, please try again.\n')
