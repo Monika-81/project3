@@ -107,8 +107,18 @@ def validate_action(value):
     try:
         value = int(value)
         if value in menu_range:
+            print(f'You choose action {value}. Is this correct?')
+            validate_option = input('Y/N?\n')
+            if validate_option == 'y':
+                pass
+            elif validate_option == 'n':
+                print('Please make new choice of action.\n')
+                edit_menu()
+            else:
+                print('Wrong input, please try again.\n')
+                validate_action(value)
             return True
-        
+            
         elif value > 5:
             print(f'You need to choose a number between 1 - 5, you chose {value}. Please try again!\n')
 
@@ -145,7 +155,6 @@ def validate_int(value):
 
     except ValueError:
         print(f'Invalid data: {value} is not a whole number (no decimals). Please try again! \n')
-
 
 
 def edit_action_event(edit_action_value, shopping_list):
@@ -398,7 +407,7 @@ def delete_item(edit_item, shopping_list):
 
                 elif verify_delete == 'n':
                     print('Item not deleted. Please make a new choice of action.\n')
-                    break
+                    edit_menu()
 
                 else:  
                     ('Please try again. Choose yes (y) or no (n).')
