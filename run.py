@@ -137,11 +137,13 @@ def item_to_edit():
             
         if validate_int(item_index):
             print((f'You chose item no. {item_index}. Is that correct?'))
-            validate_item = input('Y/N?\n').lower()
+            validate_item = input('Y/N? Or Q to choose another action.\n').lower()
             if validate_item == 'y':
                 break
             elif validate_item == 'n':
                 print('Please choose another item number.')
+            elif validate_item == 'q':
+                edit_menu()
         else:
             print('Wrong input, please try again.\n')   
     
@@ -250,7 +252,16 @@ def change_quantity(edit_item, shopping_list):
     while True:
         quantity = input('Input new quantity value:\n')  
         if validate_int(quantity):
-            break
+            print(f'Do you like to update the quantity of item no. {edit_item} to {quantity}?')
+            validate_item = input('Y/N?\ Or Q to choose another action.\n').lower()
+            if validate_item == 'y':
+                break
+            elif validate_item == 'n':
+                print('Please choose a new quantity number.')
+            elif validate_item == 'q':
+                edit_menu()
+            else:
+                print('Wrong input, please try again.\n')  
         else:
             print('Please insert a whole numeric number.')
         
