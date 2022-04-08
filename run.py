@@ -78,7 +78,6 @@ def edit_list():
             print('Wrong input, please try again.\n') 
             
 
-
 def edit_menu():
     """
     Displays a menu to let the user choose how to edit the list.
@@ -86,7 +85,7 @@ def edit_menu():
     print('\nChoose an edit action:\n')
     print('     1. Check item')
     print('     2. Change quantity')
-    print('     3. Change location')
+    print('     3. Change location - disabled')
     print('     4. Add an item')
     print('     5. Delete item')
     print('     6. Back to main menu\n')
@@ -242,8 +241,7 @@ def check_item_in_worksheet(edit_item, shopping_list):
             print('Item value not in list, please pick another value.\n')
 
     else:
-        print('Not possible to edit complete list atm')  ##complete list is merger of two lists
-
+        print('Oops! Something went wrong, please try again!')
 
 def change_quantity(edit_item, shopping_list): 
     """
@@ -290,7 +288,7 @@ def change_quantity(edit_item, shopping_list):
             print('Item value not in list, please pick another value.\n')
 
     else:
-        print('Not possible to edit complete list atm')  ##complete list is merger of two lists
+        print('Oops! Something went wrong, please try again!')
 
     
 def add_item(shopping_list):
@@ -374,7 +372,7 @@ def add_item(shopping_list):
                 main()
 
         else:
-            print('Not possible to edit complete list atm')    
+            print('Oops! Something went wrong, please try again!')
  
     elif add_acceptance == 'n':
         print('Going back to add new item...\n')
@@ -414,12 +412,22 @@ def delete_item(edit_item, shopping_list):
                         SHEET.worksheet('standard').update_cell(i + 1, 1, i)
                     
                     SHEET.worksheet('standard').update_cell(1, 1, 'Index')
-                    print('Row deleted')              
-                    break
+                    print('Row deleted\n')
+
+                    print('Would you like to delete another item?')
+                    delete_again = input('Y/N?\n')
+                    if delete_again == 'y':
+                        delete_item(edit_item, shopping_list)
+                    elif delete_again == 'n':
+                        print('Going back to main menu.\n')
+                        main()
+                    else:
+                        print('Invalid input')
+                        main()
 
                 elif verify_delete == 'n':
                     print('Item not deleted. Please make a new choice of action.\n')
-                    break
+                    edit_menu()
 
                 else:  
                     ('Please try again. Choose yes (y) or no (n).')         
@@ -446,8 +454,18 @@ def delete_item(edit_item, shopping_list):
                         SHEET.worksheet('extra').update_cell(i + 1, 1, i)
 
                     SHEET.worksheet('extra').update_cell(1, 1, 'Index')
-                    print('Row deleted')    
-                    break
+                    print('Row deleted\n')    
+
+                    print('Would you like to delete another item?')
+                    delete_again = input('Y/N?\n')
+                    if delete_again == 'y':
+                        delete_item(edit_item, shopping_list)
+                    elif delete_again == 'n':
+                        print('Going back to main menu.\n')
+                        main()
+                    else:
+                        print('Invalid input')
+                        main()
 
                 elif verify_delete == 'n':
                     print('Item not deleted. Please make a new choice of action.\n')
@@ -458,7 +476,7 @@ def delete_item(edit_item, shopping_list):
                     return False   
 
         else:
-            print('Not possible to edit complete list atm')  ##complete list is merger of two lists
+            print('Oops! Something went wrong, please try again!')
 
     return True        
                         
