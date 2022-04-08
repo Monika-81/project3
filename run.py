@@ -139,12 +139,13 @@ def validate_int(value):
     Or informs the user to input a number.
     """
     try:
-        value = int(value)  ##add validation of column length in list, and max int lenght after list lenght
+        value = int(value)
+        if True:  ##add validation of column length in list, and max int lenght after list lenght
+            return True
+
     except ValueError:
         print(f'Invalid data: {value} is not a whole number (no decimals). Please try again! \n')
-        return False
 
-    return True
 
 
 def edit_action_event(edit_action_value, shopping_list):
