@@ -88,7 +88,8 @@ def edit_menu():
     print('     2. Change quantity')
     print('     3. Change location')
     print('     4. Add an item')
-    print('     5. Delete item\n')
+    print('     5. Delete item')
+    print('     6. Back to main menu\n')
 
     while True:
         edit_action = input('Action number:')
@@ -103,7 +104,7 @@ def validate_action(value):
     Validates item index of chosen item as an integer.
     Or informs the user to input a number.
     """
-    menu_range = range(1,6)
+    menu_range = range(1,7)
     try:
         value = int(value)
         if value in menu_range:
@@ -119,7 +120,7 @@ def validate_action(value):
                 validate_action(value)
             return True
             
-        elif value > 5:
+        elif value > 6:
             print(f'You need to choose a number between 1 - 5, you chose {value}. Please try again!\n')
 
     except ValueError:
@@ -178,6 +179,9 @@ def edit_action_event(edit_action_value, shopping_list):
     elif edit_action_value == '5':
         edit_item = item_to_edit()
         delete_item(edit_item, shopping_list)
+
+    elif edit_action_value == '6':
+        main()
     
     else:
         print('Something went wrong, please restart the program.')
