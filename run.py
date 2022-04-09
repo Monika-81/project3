@@ -21,7 +21,7 @@ def view_shopping_list():
     """
 
     while True:
-        print('Welcome to your personal shopping list!\n')
+        print('\nWelcome to your personal shopping list!\n')
         print('Would you like to view the complete list?')
         print('Or your editable shopping lists?')
         print('Choose between: Complete (c), Standard (s) or Extra (e).\n')
@@ -77,24 +77,22 @@ def sort_on_buy(sort_list, headings):
     Gives the user the option to sort the list regarding to
     if the item needs to be bought or not. Also gives the
     user the option to go back to main menu or quit.
-    """    
+    """
     sort = input('Y/N?:\n').lower()
     if sort == 'y':
         sorted_list = sorted(sort_list, key=lambda x: x[2], reverse=True)
         shop_list = headings + sorted_list
         list_prettytable(shop_list)
     elif sort == 'n':
-       pass
+        pass
     else:
         print('Wrong input, try again.\n')
         sort_on_buy(sort_list, headings)
-    
+
     print('Input M to go back to the main menu')
     back = input('or any key to quit: \n').lower()
     if back == 'm':
-        print('this')
         view_shopping_list()
-        print('that')
     else:
         quit()
 
@@ -178,7 +176,7 @@ def item_to_edit(shopping_list):
             break
 
     if validate_item == 'y':
-        pass  
+        pass
     elif validate_item == 'n':
         print('Please choose another item number.')
         item_to_edit(shopping_list)
@@ -208,8 +206,18 @@ def edit_action_event(edit_action, shopping_list):
     Identifies the action the user like to proceed with.
     """
     if edit_action == '1':
-        edit_item = item_to_edit(shopping_list)
-        check_item_in_list(edit_item, edit_action, shopping_list)
+        while True:
+            print('Would you like to check all items on the list?')
+            check_all = input('Y/N?:\n')
+            if check_all == 'y':
+                check_all_update(shopping_list)
+                break
+            elif check_all == 'n':
+                edit_item = item_to_edit(shopping_list)
+                check_item_in_list(edit_item, edit_action, shopping_list)
+                break
+            else:
+                print('Wrong input, try again!')
 
     elif edit_action == '2':
         edit_item = item_to_edit(shopping_list)
@@ -231,7 +239,7 @@ def edit_action_event(edit_action, shopping_list):
 
     else:
         print('Something went wrong, please restart the program.')
-        main()
+        quit()
 
     return
 
@@ -309,6 +317,60 @@ def check_item_in_list(edit_item, edit_action, shopping_list):
     else:
         print('Oops! Something went wrong, please try again!')
         main()
+
+def check_all_update(shopping_list):
+    """
+    Lets the user check all items in list to either yes or no.
+    """
+    if shopping_list == SHEET.worksheet('standard').get_all_values():
+        standard = SHEET.worksheet('standard').col_values(1)
+        standard_col = SHEET.worksheet('standard').col_values(3)
+
+        print('Check as YES (y) or NO (n)?:\n')
+        check_type = input('Y/N?\n').lower()
+        if check_type == 'y':
+            for i in range(len(standard)):
+                i = int(i)
+                standard_col[i] = 0 + 1
+                SHEET.worksheet('standard').update_cell(i + 1, 3, "yes")
+            print('All items checked as Yes, going back to main menu.')
+
+        elif check_type == 'n':
+            for i in range(len(standard)):
+                i = int(i)
+                standard_col[i] = 0 + 1
+                SHEET.worksheet('standard').update_cell(i + 1, 3, "no")
+                print('All items checked as No, going back to main menu.')
+        else:
+            print('Wrong input, try again!')
+            check_all_update(shopping_list)
+
+    elif shopping_list == SHEET.worksheet('extra').get_all_values():
+        extra = SHEET.worksheet('extra').col_values(1)
+        extra_col = SHEET.worksheet('extra').col_values(3)
+
+        print('Check as YES (y) or NO (n)?:\n')
+        check_type = input('Y/N?\n').lower()
+        if check_type == 'y':
+            for i in range(len(extra)):
+                i = int(i)
+                extra_col[i] = 0 + 1
+                SHEET.worksheet('extra').update_cell(i + 1, 3, "yes")
+                print('All items checked as Yes, going back to main menu.')
+
+        elif check_type == 'n':
+            for i in range(len(extra)):
+                i = int(i)
+                extra_col[i] = 0 + 1
+                SHEET.worksheet('extra').update_cell(i + 1, 3, "no")
+                print('All items checked as No, going back to main menu.')
+        else:
+            print('Wrong input, try again!')
+            check_all_update(shopping_list)
+
+    else:
+        print('Oops! Something went wrong, please try again!')
+    main()
 
 
 def change_quantity(edit_item, shopping_list):
@@ -558,7 +620,7 @@ def delete_item(edit_item, shopping_list):
 
                     # Updates item index to correct index number
                     standard = SHEET.worksheet('standard').col_values(1)
-                    for i in range(len(extra)):
+                    for i in range(len(standard)):
                         i = int(i)
                         standard[i] = 0 + 1
                         SHEET.worksheet('standard').update_cell(i + 1, 1, i)
