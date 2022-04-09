@@ -84,6 +84,7 @@ def sort_on_buy(sort_list, headings):
             sorted_list = sorted(sort_list, key=lambda x: x[2], reverse=True)
             shop_list = headings + sorted_list
             list_prettytable(shop_list)
+            break
         elif sort == 'n':
             break
         else:
@@ -232,7 +233,7 @@ def edit_action_event(edit_action, shopping_list):
 
     elif edit_action == '5':
         edit_item = item_to_edit(shopping_list)
-        delete_item(edit_item, shopping_list)
+        delete_item(edit_item, edit_action, shopping_list)
 
     elif edit_action == '6':
         main()
@@ -298,7 +299,7 @@ def check_item_in_list(edit_item, edit_action, shopping_list):
                 print('Would you like to check another item?')
                 if again():
                     shopping_list = SHEET.worksheet('extra').get_all_values()
-                    check_item_in_list(edit_item, edit_action, shopping_list)
+                    edit_action_event(edit_action, shopping_list)
 
             elif update_value == 'no':
                 check_position = int(extra.index(edit_item))
@@ -308,8 +309,7 @@ def check_item_in_list(edit_item, edit_action, shopping_list):
                 print('Would you like to check another item?')
                 if again():
                     shopping_list = SHEET.worksheet('extra').get_all_values()
-                    check_item_in_list(edit_item, edit_action, shopping_list)
-
+                    edit_action_event(edit_action, shopping_list)
         else:
             print('Item value not in list, please choose another value.\n')
             main()
@@ -601,7 +601,7 @@ def add_item(shopping_list):
     return
 
 
-def delete_item(edit_item, shopping_list):
+def delete_item(edit_item, edit_action, shopping_list):
     """
     Deletes the item the user chooses from the current list.
     """
@@ -631,7 +631,7 @@ def delete_item(edit_item, shopping_list):
                     print('Would you like to delete another item?')
                     if again():
                         shopping_list = SHEET.worksheet('standard').get_all_values()
-                        delete_item(edit_item, shopping_list)
+                        edit_action_event(edit_action, shopping_list)
 
                 elif verify_delete == 'n':
                     print('Item not deleted. Please make a new choice of action.\n')
@@ -667,7 +667,7 @@ def delete_item(edit_item, shopping_list):
                     print('Would you like to delete another item?')
                     if again():
                         shopping_list = SHEET.worksheet('extra').get_all_values()
-                        delete_item(edit_item, shopping_list)
+                        edit_action_event(edit_action, shopping_list)
 
                 elif verify_delete == 'n':
                     print('Item not deleted. Please make a new choice of action.\n')
