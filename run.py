@@ -50,12 +50,16 @@ def view_shopping_list():
             standard_list_values = standard_list[1:]
             extra_list_values = extra_list[1:]
 
-            shop_list = headings + standard_list_values + extra_list_values  ##add sort on location
+            ##add sort on location
+            sort_list = standard_list_values + extra_list_values
+            sorted_list = sorted(sort_list, key=lambda x: x[4])
+            shop_list = headings + sorted_list
             pprint(shop_list)
+
             print('\nThis list is view ONLY.\n')
 
         else:
-            print('Incorrect list choice, typ 'c', 's' or 'e'. Please try again!\n')
+            print('Incorrect list choice, typ "c", "s" or "e". Please try again!\n')
 
 
 def edit_list():
