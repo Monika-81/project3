@@ -41,7 +41,7 @@ def view_shopping_list():
 
         elif list_choice == 'c':
             print('\nYou chose the COMPLETE shopping list.')
-            print('At the moment this list is view only.\n')
+            print('This list is view only.\n')
             print('Choose another list if you would like to edit the list.\n')
             standard_list = SHEET.worksheet('standard').get_all_values()
             extra_list = SHEET.worksheet('extra').get_all_values()
@@ -57,7 +57,8 @@ def view_shopping_list():
             list_prettytable(shop_list)
 
             print('\nThis list is view ONLY.\n')
-
+            print('Would you like to sort the list on items that needs to be bought instead?')
+            sort_on_buy(sort_list, headings)
         else:
             print('Incorrect list choice, type "c", "s" or "e". Please try again!\n')
 
@@ -71,6 +72,32 @@ def list_prettytable(shop_list):
         pt_.add_row(shop_list[i+1])
     print(pt_)
 
+def sort_on_buy(sort_list, headings):
+    """
+    Gives the user the option to sort the list regarding to
+    if the item needs to be bought or not. Also gives the
+    user the option to go back to main menu or quit.
+    """    
+    sort = input('Y/N?:\n').lower()
+    if sort == 'y':
+        sorted_list = sorted(sort_list, key=lambda x: x[2], reverse=True)
+        shop_list = headings + sorted_list
+        list_prettytable(shop_list)
+    elif sort == 'n':
+       pass
+    else:
+        print('Wrong input, try again.\n')
+        sort_on_buy(sort_list, headings)
+    
+    print('Input M to go back to the main menu')
+    back = input('or any key to quit: \n').lower()
+    if back == 'm':
+        print('this')
+        view_shopping_list()
+        print('that')
+    else:
+        quit()
+
 
 def edit_list():
     """
@@ -82,7 +109,7 @@ def edit_list():
         return
     elif edit == 'n':
         print('Going back to the main menu.\n')
-        main()
+        view_shopping_list()
     else:
         print('Wrong input, please try again.\n')
         edit_list()
