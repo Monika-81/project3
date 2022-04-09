@@ -1,6 +1,6 @@
 import gspread
 from google.oauth2.service_account import Credentials
-from pprint import pprint
+from prettytable import PrettyTable
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -30,13 +30,13 @@ def view_shopping_list():
         if list_choice == 's':
             print('You chose the STANDARD shopping list.\n')
             shop_list = SHEET.worksheet('standard').get_all_values()
-            pprint(shop_list)
+            list_prettytable(shop_list)
             return shop_list
 
         elif list_choice == 'e':
             print('You chose the EXTRA shopping list.\n')
             shop_list = SHEET.worksheet('extra').get_all_values()
-            pprint(shop_list)
+            list_prettytable(shop_list)
             return shop_list
 
         elif list_choice == 'c':
@@ -54,12 +54,22 @@ def view_shopping_list():
             sort_list = standard_list_values + extra_list_values
             sorted_list = sorted(sort_list, key=lambda x: x[4])
             shop_list = headings + sorted_list
-            pprint(shop_list)
+            list_prettytable(shop_list)
 
             print('\nThis list is view ONLY.\n')
 
         else:
             print('Incorrect list choice, type "c", "s" or "e". Please try again!\n')
+
+def list_prettytable(shop_list):
+    """
+    Formats the list using PrettyTable
+    """
+    pt_ = PrettyTable()
+    pt_.field_names = shop_list[0]
+    for i in range(len(shop_list)-1):
+        pt_.add_row(shop_list[i+1])
+    print(pt_)
 
 
 def edit_list():
