@@ -57,7 +57,7 @@ def view_shopping_list():
             list_prettytable(shop_list)
 
             print('\nThis list is view ONLY.\n')
-            print('Would you like to sort the list on items that needs to be bought instead?')
+            print('Would you like to sort the list on items that needs to be bought?')
             sort_on_buy(sort_list, headings)
         else:
             print('Incorrect list choice, type "c", "s" or "e". Please try again!\n')
@@ -78,21 +78,21 @@ def sort_on_buy(sort_list, headings):
     if the item needs to be bought or not. Also gives the
     user the option to go back to main menu or quit.
     """
-    sort = input('Y/N?:\n').lower()
-    if sort == 'y':
-        sorted_list = sorted(sort_list, key=lambda x: x[2], reverse=True)
-        shop_list = headings + sorted_list
-        list_prettytable(shop_list)
-    elif sort == 'n':
-        pass
-    else:
-        print('Wrong input, try again.\n')
-        sort_on_buy(sort_list, headings)
+    while True:
+        sort = input('Y/N?:\n').lower()
+        if sort == 'y':
+            sorted_list = sorted(sort_list, key=lambda x: x[2], reverse=True)
+            shop_list = headings + sorted_list
+            list_prettytable(shop_list)
+        elif sort == 'n':
+            break
+        else:
+            print('Wrong input, try again.\n')
 
     print('Input M to go back to the main menu')
     back = input('or any key to quit: \n').lower()
     if back == 'm':
-        view_shopping_list()
+        main()
     else:
         quit()
 
