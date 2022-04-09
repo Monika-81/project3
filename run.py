@@ -50,7 +50,7 @@ def view_shopping_list():
             standard_list_values = standard_list[1:]
             extra_list_values = extra_list[1:]
 
-            ##add sort on location
+            # add sort on location
             sort_list = standard_list_values + extra_list_values
             sorted_list = sorted(sort_list, key=lambda x: x[4])
             shop_list = headings + sorted_list
@@ -59,7 +59,7 @@ def view_shopping_list():
             print('\nThis list is view ONLY.\n')
 
         else:
-            print('Incorrect list choice, typ "c", "s" or "e". Please try again!\n')
+            print('Incorrect list choice, type "c", "s" or "e". Please try again!\n')
 
 
 def edit_list():
@@ -128,25 +128,29 @@ def validate_action(value):
 
     return True
 
-def item_to_edit():
+def item_to_edit(shopping_list):
     """
     Lets the user choose which item on the list to edit.
     """
-    print('\nChoose the number of the item you like to edit.\n')
-    item_index = input('Item number:\n')
-    if validate_int(item_index):
-        print((f'You chose item no. {item_index}. Is that correct?'))
-        validate_item = input('Y/N? Or Q to choose another action.\n').lower()
-        if validate_item == 'y':
-            return item_index
-        elif validate_item == 'n':
-            print('Please choose another item number.')
-            item_to_edit()
-        elif validate_item == 'q':
-            main()
+    while True:
+        print('\nChoose the number of the item you like to edit.\n')
+        item_index = input('Item number:\n')
+        if validate_int(item_index):
+            print((f'You chose item no. {item_index}. Is that correct?'))
+            validate_item = input('Y/N? Or Q to choose another action.\n').lower()
+            break
+
+    if validate_item == 'y':
+        pass  
+    elif validate_item == 'n':
+        print('Please choose another item number.')
+        item_to_edit(shopping_list)
+    elif validate_item == 'q':
+        edit_menu(shopping_list)
     else:
         print('Wrong input, please try again.\n')
-        item_to_edit()
+        item_to_edit(shopping_list)
+    return item_index
 
 
 def validate_int(value):
@@ -155,7 +159,7 @@ def validate_int(value):
     Or informs the user to input a number.
     """
     try:
-        value = int(value)  ##add validation of column length in list, and max int lenght after list lenght
+        value = int(value)
     except ValueError:
         print(f'Invalid data: {value} is not a whole number (no decimals). Please try again! \n')
         return False
@@ -167,22 +171,22 @@ def edit_action_event(edit_action, shopping_list):
     Identifies the action the user like to proceed with.
     """
     if edit_action == '1':
-        edit_item = item_to_edit()
+        edit_item = item_to_edit(shopping_list)
         check_item_in_list(edit_item, edit_action, shopping_list)
 
     elif edit_action == '2':
-        edit_item = item_to_edit()
+        edit_item = item_to_edit(shopping_list)
         change_quantity(edit_item, shopping_list)
 
     elif edit_action == '3':
-        edit_item = item_to_edit()
+        edit_item = item_to_edit(shopping_list)
         change_location(edit_item, shopping_list)
 
     elif edit_action == '4':
         add_item(shopping_list)
 
     elif edit_action == '5':
-        edit_item = item_to_edit()
+        edit_item = item_to_edit(shopping_list)
         delete_item(edit_item, shopping_list)
 
     elif edit_action == '6':
@@ -190,6 +194,7 @@ def edit_action_event(edit_action, shopping_list):
 
     else:
         print('Something went wrong, please restart the program.')
+        main()
 
     return
 
@@ -222,7 +227,7 @@ def check_item_in_list(edit_item, edit_action, shopping_list):
             elif update_value == 'no':
                 check_position = int(standard.index(edit_item))
                 SHEET.worksheet('standard').update_cell(check_position + 1, 3, 'yes')
-                print(f'Item number {edit_item} has been set to Yes!?n')
+                print(f'Item number {edit_item} has been set to Yes!?\n')
 
                 print('Would you like to check another item?')
                 if again():
@@ -231,6 +236,7 @@ def check_item_in_list(edit_item, edit_action, shopping_list):
 
         else:
             print('Item value not in list, please pick another value.\n')
+            main()
 
     elif shopping_list == SHEET.worksheet('extra').get_all_values():
         extra = SHEET.worksheet('extra').col_values(1)
@@ -252,7 +258,7 @@ def check_item_in_list(edit_item, edit_action, shopping_list):
             elif update_value == 'no':
                 check_position = int(extra.index(edit_item))
                 SHEET.worksheet('extra').update_cell(check_position + 1, 3, 'yes')
-                print(f'Item number {edit_item} has been set to Yes!?n')
+                print(f'Item number {edit_item} has been set to Yes!?\n')
 
                 print('Would you like to check another item?')
                 if again():
@@ -261,9 +267,11 @@ def check_item_in_list(edit_item, edit_action, shopping_list):
 
         else:
             print('Item value not in list, please choose another value.\n')
+            main()
 
     else:
         print('Oops! Something went wrong, please try again!')
+        main()
 
 
 def change_quantity(edit_item, shopping_list):
@@ -280,12 +288,14 @@ def change_quantity(edit_item, shopping_list):
             print('Please choose a new quantity number.\n')
             change_quantity(edit_item, shopping_list)
         elif validate_item == 'q':
-            main()
+            edit_menu(shopping_list)
             return
         else:
             print('Wrong input, please try again.\n')
+            change_quantity(edit_item, shopping_list)
     else:
         print('Please insert a whole numeric number.')
+        change_quantity(edit_item, shopping_list)
 
 
 def update_quantity(edit_item, quantity, shopping_list):
@@ -304,11 +314,11 @@ def update_quantity(edit_item, quantity, shopping_list):
             print('Would you like to change quantity on another item?')
             if again():
                 shopping_list = SHEET.worksheet('extra').get_all_values()
-                item_to_edit()
+                item_to_edit(shopping_list)
                 change_quantity(edit_item, shopping_list)
         else:
             print('Item value not in list, please pick another value.\n')
-            item_to_edit()
+            item_to_edit(shopping_list)
 
     elif shopping_list == SHEET.worksheet('extra').get_all_values():
         extra = SHEET.worksheet('extra').col_values(1)
@@ -322,14 +332,15 @@ def update_quantity(edit_item, quantity, shopping_list):
             print('Would you like to change quantity on another item?')
             if again():
                 shopping_list = SHEET.worksheet('extra').get_all_values()
-                item_to_edit()
+                item_to_edit(shopping_list)
                 change_quantity(edit_item, shopping_list)
         else:
             print('Item value not in list, please pick another value.\n')
-            item_to_edit()
+            item_to_edit(shopping_list)
 
     else:
         print('Oops! Something went wrong, please try again!')
+        main()
 
 
 def change_location(edit_item, shopping_list):
@@ -341,7 +352,7 @@ def change_location(edit_item, shopping_list):
         print(' "Floral", "Household", "Meat", "Personal" "Vegetables" \n')
         location = input('Input new location: \n').capitalize()
 
-        if location.isalpha():  ##input validation
+        if location.isalpha():  # input validation
             break
         else:
             print('Input needs to be alphabetic. Try again.\n')
@@ -354,7 +365,7 @@ def change_location(edit_item, shopping_list):
         print('Please choose another location.\n')
         change_location(edit_item, shopping_list)
     elif validate == 'q':
-        main()
+        edit_menu(shopping_list)
         return
     else:
         print('Please use alphabetic figures and no spaces.')
@@ -377,11 +388,11 @@ def update_location(edit_item, location, shopping_list):
             print('Would you like to change the location of another item?')
             if again():
                 shopping_list = SHEET.worksheet('extra').get_all_values()
-                item_to_edit()
+                item_to_edit(shopping_list)
                 change_location(edit_item, shopping_list)
         else:
             print('Item value not in list, please pick another value.\n')
-            item_to_edit()
+            item_to_edit(shopping_list)
 
     elif shopping_list == SHEET.worksheet('extra').get_all_values():
         extra = SHEET.worksheet('extra').col_values(1)
@@ -395,14 +406,15 @@ def update_location(edit_item, location, shopping_list):
             print('Would you like to change the location of another item?')
             if again():
                 shopping_list = SHEET.worksheet('extra').get_all_values()
-                item_to_edit()
+                item_to_edit(shopping_list)
                 change_location(edit_item, shopping_list)
         else:
             print('Item value not in list, please pick another value.\n')
-            item_to_edit()
+            item_to_edit(shopping_list)
 
     else:
         print('Oops! Something went wrong, please try again!')
+        main()
 
 
 def add_item(shopping_list):
@@ -415,7 +427,7 @@ def add_item(shopping_list):
         print('\nYou wish to add an item to the list.\n')
         item = input('Name of item:\n').capitalize()
 
-        if item.isalpha():  ##input validation
+        if item.isalpha():  # input validation
             break
         else:
             print('Input needs to be alphabetic. Try again.\n')
@@ -423,7 +435,7 @@ def add_item(shopping_list):
     while True:
         quantity = input('Quantity: \n')
 
-        try:  ##input validation
+        try:  # input validation
             quantity = int(quantity)
             if quantity in range(1, 100):
                 break
@@ -438,7 +450,7 @@ def add_item(shopping_list):
         print(' "Floral", "Household", "Meat", "Personal" "Vegetables" \n')
         location = input('Location in store: \n').capitalize()
 
-        if location.isalpha():  ##input validation
+        if location.isalpha():  # input validation
             break
         else:
             print('Input needs to be alphabetic. Try again.\n')
@@ -457,6 +469,7 @@ def add_item(shopping_list):
 
             print('Would you like to add another item?')
             if again():
+                shopping_list = SHEET.worksheet('standard').get_all_values()
                 add_item(shopping_list)
 
         elif shopping_list == SHEET.worksheet('extra').get_all_values():
@@ -469,6 +482,7 @@ def add_item(shopping_list):
 
             print('Would you like to add another item?')
             if again():
+                shopping_list = SHEET.worksheet('extra').get_all_values()
                 add_item(shopping_list)
 
         else:
@@ -480,7 +494,7 @@ def add_item(shopping_list):
         add_item(shopping_list)
 
     elif add_acceptance == 'q':
-        main()
+        edit_menu(shopping_list)
 
     else:
         print('Wrong input, please try again.\n')
@@ -505,9 +519,9 @@ def delete_item(edit_item, shopping_list):
                 if verify_delete == 'y':
                     SHEET.worksheet('standard').delete_rows((index_num) + 1)
 
-                    ##Updates item index to correct index number
+                    # Updates item index to correct index number
                     standard = SHEET.worksheet('standard').col_values(1)
-                    for i in enumerate(standard):
+                    for i in range(len(extra)):
                         i = int(i)
                         standard[i] = 0 + 1
                         SHEET.worksheet('standard').update_cell(i + 1, 1, i)
@@ -517,6 +531,7 @@ def delete_item(edit_item, shopping_list):
 
                     print('Would you like to delete another item?')
                     if again():
+                        shopping_list = SHEET.worksheet('standard').get_all_values()
                         delete_item(edit_item, shopping_list)
 
                 elif verify_delete == 'n':
@@ -540,9 +555,9 @@ def delete_item(edit_item, shopping_list):
                 if verify_delete == 'y':
                     SHEET.worksheet('extra').delete_rows((index_num) + 1)
 
-                    ##Updates item index to correct index number
+                    # Updates item index to correct index number
                     extra = SHEET.worksheet('extra').col_values(1)
-                    for i in enumerate(extra):
+                    for i in range(len(extra)):
                         i = int(i)
                         extra[i] = 0 + 1
                         SHEET.worksheet('extra').update_cell(i + 1, 1, i)
@@ -552,6 +567,7 @@ def delete_item(edit_item, shopping_list):
 
                     print('Would you like to delete another item?')
                     if again():
+                        shopping_list = SHEET.worksheet('extra').get_all_values()
                         delete_item(edit_item, shopping_list)
 
                 elif verify_delete == 'n':
@@ -564,6 +580,7 @@ def delete_item(edit_item, shopping_list):
                     return False
         else:
             print('Oops! Something went wrong, please try again!')
+            main()
     return
 
 
@@ -589,6 +606,5 @@ def main():
     shopping_list = view_shopping_list()
     edit_list()
     edit_menu(shopping_list)
-    # edit_action_event(edit_action_value, shopping_list)
 
 main()
