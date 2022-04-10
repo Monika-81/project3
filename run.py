@@ -16,7 +16,7 @@ SHEET = GSPREAD_CLIENT.open('buy_me')
 def view_shopping_list():
     """
     Lets the user choose if they what to see both shopping
-    lists as one or one separate list, either standard list or
+    lists as one or one of the separate list, either standard list or
     the list for extra supplies. A complete list contains values
     from both lists but only one heading.
     """
@@ -24,8 +24,11 @@ def view_shopping_list():
     while True:
         print('\nWelcome to your personal shopping list!\n')
         print('Would you like to view the complete list?')
-        print('Or your editable shopping lists?')
-        print('Choose between: Complete (c), Standard (s) or Extra (e).\n')
+        print('Or one of your editable shopping lists?\n')
+        print('Choose between: ')
+        print('Complete list (c) - a merger of the two lists below.')
+        print('Standard list (s) - the regular groceries you stock up.')
+        print('Extra list (e) - an list of extra supplies.\n')
         list_choice = input('Please choose a list: \n').lower()
         global shop_list
 
@@ -52,13 +55,12 @@ def view_shopping_list():
             standard_list_values = standard_list[1:]
             extra_list_values = extra_list[1:]
 
-            # add sort on location
+            # sort list on location
             sort_list = standard_list_values + extra_list_values
             sorted_list = sorted(sort_list, key=lambda x: x[4])
             shop_list = headings + sorted_list
             list_prettytable(shop_list)
 
-            print('\nThis list is view ONLY.\n')
             print('Would you like to sort on items that needs to be bought?')
             sort_on_buy(sort_list, headings)
         else:
@@ -113,10 +115,11 @@ def edit_list():
         return
     elif edit == 'n':
         print('Going back to the main menu.\n')
-        view_shopping_list()
+        main()
     else:
         print('Wrong input, please try again.\n')
         edit_list()
+        return
 
 
 def edit_menu(shopping_list):
@@ -177,7 +180,7 @@ def item_to_edit(shopping_list):
     """
     while True:
         print('\nChoose the number of the item you like to edit.\n')
-        item_index = input('\nItem number:\n')
+        item_index = input('\Item number:\n')
         if validate_int(item_index):
             print((f'\nYou chose item no. {item_index}. Is that correct?'))
             validate_item = input('Y/N? Or Q to go back.\n').lower()
@@ -357,6 +360,10 @@ def check_all_update(shopping_list):
                 i = int(i)
                 standard_col[i] = 0 + 1
                 SHEET.worksheet('standard').update_cell(i + 1, 3, "yes")
+            
+            SHEET.worksheet('standard').update_cell(1, 3, 'Buy-Me')
+            shop_list = SHEET.worksheet('standard').get_values()
+            list_prettytable(shop_list)
             print('All items checked as Yes, going back to main menu.')
 
         elif check_type == 'n':
@@ -364,6 +371,10 @@ def check_all_update(shopping_list):
                 i = int(i)
                 standard_col[i] = 0 + 1
                 SHEET.worksheet('standard').update_cell(i + 1, 3, "no")
+
+            SHEET.worksheet('standard').update_cell(1, 3, 'Buy-Me')
+            shop_list = SHEET.worksheet('standard').get_values()
+            list_prettytable(shop_list)
             print('All items checked as No, going back to main menu.')
         else:
             print('Wrong input, try again!')
@@ -380,6 +391,10 @@ def check_all_update(shopping_list):
                 i = int(i)
                 extra_col[i] = 0 + 1
                 SHEET.worksheet('extra').update_cell(i + 1, 3, "yes")
+
+            SHEET.worksheet('extra').update_cell(1, 3, 'Buy-Me')
+            shop_list = SHEET.worksheet('extra').get_values()
+            list_prettytable(shop_list)
             print('All items checked as Yes, going back to main menu.')
 
         elif check_type == 'n':
@@ -387,6 +402,10 @@ def check_all_update(shopping_list):
                 i = int(i)
                 extra_col[i] = 0 + 1
                 SHEET.worksheet('extra').update_cell(i + 1, 3, "no")
+
+            SHEET.worksheet('extra').update_cell(1, 3, 'Buy-Me')
+            shop_list = SHEET.worksheet('extra').get_values()
+            list_prettytable(shop_list)
             print('All items checked as No, going back to main menu.')
         else:
             print('Wrong input, try again!')
