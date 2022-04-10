@@ -22,13 +22,15 @@ def view_shopping_list():
     """
 
     while True:
-        print('\nWelcome to your personal shopping list!\n')
-        print('Would you like to view the complete list?')
+        print('-----------------------------------------------------------')
+        print('|         Welcome to your personal shopping list!         |')
+        print('-----------------------------------------------------------')
+        print('Would you like to view the complete shopping list?   |')
         print('Or one of your editable shopping lists?\n')
-        print('Choose between: ')
-        print('Complete list (c) - a merger of the two lists below.')
+        print('Choose between:')
+        print('Complete list (c) - a merger of the two lists above.')
         print('Standard list (s) - the regular groceries you stock up.')
-        print('Extra list (e) - an list of extra supplies.\n')
+        print('Extra list (e) - a list of additional supplies.\n')
         list_choice = input('Please choose a list: \n').lower()
         global shop_list
 
@@ -64,13 +66,14 @@ def view_shopping_list():
             print('Would you like to sort on items that needs to be bought?')
             sort_on_buy(sort_list, headings)
         else:
-            print('Incorrect list choice, type "c", "s" or "e".')
+            print('Incorrect list choice, type "c", "e" or "s".')
             print('Please try again!\n')
 
 
 def list_prettytable(shop_list):
     """
-    Formats the list using PrettyTable
+    Formats the list using PrettyTable, to make the 
+    lists easy to read and more visual appealing.
     """
     pt_ = PrettyTable()
     pt_.field_names = shop_list[0]
@@ -180,9 +183,9 @@ def item_to_edit(shopping_list):
     """
     while True:
         print('\nChoose the number of the item you like to edit.\n')
-        item_index = input('\Item number:\n')
+        item_index = input('Item number:\n')
         if validate_int(item_index):
-            print((f'\nYou chose item no. {item_index}. Is that correct?'))
+            print((f'(\nYou chose item no. {item_index}. Is that correct?'))
             validate_item = input('Y/N? Or Q to go back.\n').lower()
             break
 
@@ -353,7 +356,7 @@ def check_all_update(shopping_list):
         standard = SHEET.worksheet('standard').col_values(1)
         standard_col = SHEET.worksheet('standard').col_values(3)
 
-        print('Check as YES (y) or NO (n)?:\n')
+        print('\nCheck as YES (y) or NO (n)?:\n')
         check_type = input('Y/N?\n').lower()
         if check_type == 'y':
             for i in range(len(standard)):
@@ -384,7 +387,7 @@ def check_all_update(shopping_list):
         extra = SHEET.worksheet('extra').col_values(1)
         extra_col = SHEET.worksheet('extra').col_values(3)
 
-        print('Check as YES (y) or NO (n)?:\n')
+        print('\nCheck as YES (y) or NO (n)?:\n')
         check_type = input('Y/N?\n').lower()
         if check_type == 'y':
             for i in range(len(extra)):
@@ -495,7 +498,7 @@ def change_location(edit_item, shopping_list):
     Ask for user input new location and checks for valid input.
     """
     while True:
-        print('Locations in store (examples): "Bakery", "Bevereges", "Bulk", ')
+        print('\nLocations in store (examples): "Bakery", "Bevereges", "Bulk", ')
         print(' "Dairy", "Deli", "Floral", "Household", "Meat",')
         print(' "Personal", "Snacks", "Vegetables" \n')
         location = input('Input new location: \n').capitalize()
@@ -599,7 +602,7 @@ def add_item(shopping_list):
             print('Please try again!\n')
 
     while True:
-        print('Locations in store (examples): "Bakery", "Bevereges", "Bulk", ')
+        print('\nLocations in store (examples): "Bakery", "Bevereges", "Bulk", ')
         print(' "Dairy", "Deli", "Floral", "Household", "Meat",')
         print(' "Personal", "Snacks", "Vegetables" \n')
         location = input('Location in store: \n').capitalize()
