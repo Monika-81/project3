@@ -22,10 +22,10 @@ def view_shopping_list():
     """
 
     while True:
-        print('-----------------------------------------------------------')
-        print('|         Welcome to your personal shopping list!         |')
-        print('-----------------------------------------------------------')
-        print('Would you like to view the complete shopping list?   |')
+        print('---------------------------------------------------------')
+        print('|       Welcome to your personal shopping list!         |')
+        print('---------------------------------------------------------')
+        print('Would you like to view the complete shopping list?')
         print('Or one of your editable shopping lists?\n')
         print('Choose between:')
         print('Complete list (c) - a merger of the two lists above.')
@@ -72,7 +72,7 @@ def view_shopping_list():
 
 def list_prettytable(shop_list):
     """
-    Formats the list using PrettyTable, to make the 
+    Formats the list using PrettyTable, to make the
     lists easy to read and more visual appealing.
     """
     pt_ = PrettyTable()
@@ -363,7 +363,7 @@ def check_all_update(shopping_list):
                 i = int(i)
                 standard_col[i] = 0 + 1
                 SHEET.worksheet('standard').update_cell(i + 1, 3, "yes")
-            
+
             SHEET.worksheet('standard').update_cell(1, 3, 'Buy-Me')
             shop_list = SHEET.worksheet('standard').get_values()
             list_prettytable(shop_list)
@@ -498,7 +498,7 @@ def change_location(edit_item, shopping_list):
     Ask for user input new location and checks for valid input.
     """
     while True:
-        print('\nLocations in store (examples): "Bakery", "Bevereges", "Bulk", ')
+        print('\nLocation in store (examples): "Bakery", "Bevereges", "Bulk",')
         print(' "Dairy", "Deli", "Floral", "Household", "Meat",')
         print(' "Personal", "Snacks", "Vegetables" \n')
         location = input('Input new location: \n').capitalize()
@@ -602,7 +602,7 @@ def add_item(shopping_list):
             print('Please try again!\n')
 
     while True:
-        print('\nLocations in store (examples): "Bakery", "Bevereges", "Bulk", ')
+        print('\nLocation in store (examples): "Bakery", "Bevereges", "Bulk",')
         print(' "Dairy", "Deli", "Floral", "Household", "Meat",')
         print(' "Personal", "Snacks", "Vegetables" \n')
         location = input('Location in store: \n').capitalize()

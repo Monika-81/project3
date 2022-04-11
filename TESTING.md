@@ -9,7 +9,7 @@
 
 ### **Manual testing**
 
-During the entire developing stage I repeatedly tested the code added and altered regarding function and apperance via a python3 command terminal in the GitPod code editor. After the site was live deployed I also checked the site regularly trough the Heroku app to see how it behaved. My best friend in the debugging and testing was to add print-statements along the code to see where the bug appered as well as commenting out code and reading the error messages in the terminal. I also had my boyfriend test the deployed app to search for bugs I hadn't noticed.
+During the entire developing stage I repeatedly tested the code added and altered regarding function and apperance via a python3 command terminal in the GitPod code editor. After the site was live deployed I also checked the site regularly trough the Heroku app to see how it behaved. One of the most important functions of the app was to validate the input data so the user cant't proceed without putting in the right value. It took extensive work since there are multiple input fields and multiple actions that requires the user to confirm there choice or make another one but in the end all requested validation works. My best friend in the debugging and testing was to add print-statements along the flow of the code, to see exactly where the bug appered as well as commenting out code and reading the error messages in the terminal. I also had my boyfriend test the deployed app to search for bugs I hadn't noticed.
 
 <br>
 
@@ -42,7 +42,7 @@ When the basic structure of the project was done I ran code validation through t
 There where a number of bugs and mishaps committed through the development as I tried to learn the best way to code the website. I freakvently created lociacal errors due to not understanding the flow of the code correctly but as the project came along, and the bugs with it, I started too see and understand more naturally what I had done too cause the bug to happen.
 
 **The major bugs where**: <br>
-1. While loops that looped back to previous choosen actions or items after the user choose to go back to main menu. Or kept looping if the input was wrong.
+1. While loops that looped back to previous chosen actions or items after the user chose to go back to main menu. Or kept looping if the input was wrong.
     - Logical error due to not understanding the flow and not properly breaking the loop when I thought I had.
     - Sometimes I discarded the while loop, thinking the loop was the problem but later had too add it again after figuring out what I was doing wrong.
 2. The opposite also happend when I thought the code would loop without using a loop at all.
@@ -52,16 +52,8 @@ There where a number of bugs and mishaps committed through the development as I 
     - Fixed by changing the code back to the original code: range(len(x))
 4. It the user changed it's mind about what item number the wanted to edit, the input value of the code changed into a "NoneType" and the code stopped due to SyntaxError. 
     - This time I wasn't using a while loop where I should. With the help of print statements and a nights sleep, I finally saw my mistakes. 
-5. 
-    - 
-6. 
-    - 
-7. 
-    - 
-8. 
-    - 
-9. 
-    - 
+5. When showing the updated list after an action, the old list was shown. 
+    - Had to add an seperete new line redefining the variable so right list was showing. Added the functionallity to the variable so it is global. 
 
 <br>
 
