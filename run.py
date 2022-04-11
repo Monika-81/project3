@@ -28,7 +28,7 @@ def view_shopping_list():
         print('Would you like to view the complete shopping list?')
         print('Or one of your editable shopping lists?\n')
         print('Choose between:')
-        print('Complete list (c) - a merger of the two lists above.')
+        print('Complete list (c) - a merger of the two lists below.')
         print('Standard list (s) - the regular groceries you stock up.')
         print('Extra list (e) - a list of additional supplies.\n')
         list_choice = input('Please choose a list: \n').lower()
@@ -84,7 +84,7 @@ def list_prettytable(shop_list):
 
 def sort_on_buy(sort_list, headings):
     """
-    Gives the user the option to sort the list regarding to
+    Gives the user the option to sort the list regarding
     if the item needs to be bought or not. Also gives the
     user the option to go back to main menu or quit.
     """
@@ -166,12 +166,12 @@ def validate_action(value):
         if value in menu_range:
             print()
         elif value > 6:
-            print('You need to choose a number between 1 - 5.')
+            print('You need to choose a number between 1 - 6.')
             print('Please try again!\n')
             return False
 
     except ValueError:
-        print('You need to choose a number between 1 - 5. Please try again!\n')
+        print('You need to choose a number between 1 - 6. Please try again!\n')
         return False
 
     return True
@@ -502,7 +502,7 @@ def change_location(edit_item, shopping_list):
     Ask for user input new location and checks for valid input.
     """
     while True:
-        print('\nLocation in store (examples): "Bakery", "Bevereges", "Bulk",')
+        print('\nLocation in store (examples): "Bakery", "Beverages", "Bulk",')
         print(' "Dairy", "Deli", "Floral", "Household", "Meat",')
         print(' "Personal", "Snacks", "Vegetables" \n')
         location = input('Input new location: \n').capitalize()
@@ -609,7 +609,7 @@ def add_item(shopping_list):
             print('Please try again!\n')
 
     while True:
-        print('\nLocation in store (examples): "Bakery", "Bevereges", "Bulk",')
+        print('\nLocation in store (examples): "Bakery", "Beverages", "Bulk",')
         print(' "Dairy", "Deli", "Floral", "Household", "Meat",')
         print(' "Personal", "Snacks", "Vegetables" \n')
         location = input('Location in store: \n').capitalize()
