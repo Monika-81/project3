@@ -22,9 +22,9 @@ def view_shopping_list():
     """
 
     while True:
-        print('---------------------------------------------------------')
+        print(' -------------------------------------------------------')
         print('|       Welcome to your personal shopping list!         |')
-        print('---------------------------------------------------------')
+        print(' -------------------------------------------------------')
         print('Would you like to view the complete shopping list?')
         print('Or one of your editable shopping lists?\n')
         print('Choose between:')
@@ -52,7 +52,7 @@ def view_shopping_list():
             print('Choose another list if you would like to edit the list.\n')
             standard_list = SHEET.worksheet('standard').get_values()
             extra_list = SHEET.worksheet('extra').get_values()
-
+         
             headings = [standard_list[0]]
             standard_list_values = standard_list[1:]
             extra_list_values = extra_list[1:]
@@ -100,7 +100,7 @@ def sort_on_buy(sort_list, headings):
         else:
             print('Wrong input, try again.\n')
 
-    print('Input M to go back to the main menu')
+    print('Press M (m) to go back to the main menu')
     back = input('or any key to quit: \n').lower()
     if back == 'm':
         main()
@@ -127,7 +127,7 @@ def edit_list():
 
 def edit_menu(shopping_list):
     """
-    Displays a menu to let the user choose how to edit the list.
+    Displays an actions menu to let the user choose how to edit the list.
     """
     print('\nChoose an edit action:\n')
     print('     1. Check item')
@@ -179,16 +179,17 @@ def validate_action(value):
 
 def item_to_edit(shopping_list):
     """
-    Lets the user choose which item on the list to edit.
+    Lets the user choose which item on the list to edit, validates the input.
     """
     while True:
         print('\nChoose the number of the item you like to edit.\n')
         item_index = input('Item number:\n')
         if validate_int(item_index):
-            print((f'(\nYou chose item no. {item_index}. Is that correct?'))
+            print(f'(\nYou chose item no. {item_index}. Is that correct?')
             validate_item = input('Y/N? Or Q to go back.\n').lower()
             break
 
+    # input validation        
     if validate_item == 'y':
         pass
     elif validate_item == 'n':
@@ -218,7 +219,8 @@ def validate_int(value):
 
 def edit_action_event(edit_action, shopping_list):
     """
-    Identifies the action the user like to proceed with.
+    Identifies the action the user like to proceed with 
+    and starts each action seperately.
     """
     if edit_action == '1':
         while True:
@@ -264,6 +266,7 @@ def check_item_in_list(edit_item, edit_action, shopping_list):
     If the item the user chose to check is in the list,
     the function finds the item and changes the value in
     google sheet to either yes or no (to buy or not to buy).
+    Restarts the action if the user likes to check another item.
     """
     index_num = int(edit_item)
 
@@ -445,13 +448,15 @@ def change_quantity(edit_item, shopping_list):
 
 def update_quantity(edit_item, quantity, shopping_list):
     """
-    Updates quantity to worksheet.
+    If the item the user chose to change quantity of an item,
+    the function finds the item and changes the value in
+    google sheet to either after user input new quantity value.
+    Restarts the action if the user likes to edit another item.
     """
     if shopping_list == SHEET.worksheet('standard').get_values():
         standard = SHEET.worksheet('standard').col_values(1)
 
         if edit_item in standard:
-
             position = int(standard.index(edit_item))
             SHEET.worksheet('standard').update_cell(position + 1, 4, quantity)
             print(f'The quantatity has been set to {quantity}.\n')
@@ -472,7 +477,6 @@ def update_quantity(edit_item, quantity, shopping_list):
         extra = SHEET.worksheet('extra').col_values(1)
 
         if edit_item in extra:
-
             position = int(extra.index(edit_item))
             SHEET.worksheet('extra').update_cell(position + 1, 4, quantity)
             print(f'The quantatity has been set to {quantity}.\n')
@@ -525,7 +529,10 @@ def change_location(edit_item, shopping_list):
 
 def update_location(edit_item, location, shopping_list):
     """
-    Updates location of the item the user picked to worksheet.
+    If the item the user chose to change location of an item,
+    the function finds the item and changes the value in
+    google sheet to either after user input new location value.
+    Restarts the action if the user likes to edit another item.
     """
     if shopping_list == SHEET.worksheet('standard').get_values():
         standard = SHEET.worksheet('standard').col_values(1)
@@ -575,8 +582,8 @@ def update_location(edit_item, location, shopping_list):
 def add_item(shopping_list):
     """
     Asks the user what values they like to pass to the new row.
-    Validates the numbers and asks the user to verify they want to
-    add input values as a new row on chosen list.
+    Validates the values and asks the user to verify that they want
+    to add input values as a new row on chosen list.
     """
     while True:
         print('\nYou wish to add an item to the list.\n')
@@ -613,7 +620,8 @@ def add_item(shopping_list):
             print('Input needs to be alphabetic. Try again.\n')
 
     print(f'\nDo you wish to add {item}, qty of {quantity} at {location}?')
-
+    
+    # Adds the new row
     add_acceptance = input('Y/N? Or Q to choose another action:\n')
     if add_acceptance == 'y':
         if shopping_list == SHEET.worksheet('standard').get_values():

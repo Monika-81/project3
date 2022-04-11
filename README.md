@@ -6,7 +6,7 @@ Let me introduce you further to [**Buy-Me**](https://but-me-py.herokuapp.com/)!
 <br>
 <br>
 
-!!!!---------PHOTO-------!!!!!
+<img src="assets/image/welcome.png" width=1200>
 <br>
 
 
@@ -71,14 +71,13 @@ To make the lists easy to read and more visual appealing, [**PrettyTable**](http
 ## **Features**
 
 ### **Welcome page**
-
+<details>
 After the user runs the application they are greeted with a welcome message that in a few lines describes the app and gives the user the option to choose between three diffrent list settings. Along the way, the user always get the choice to confirm their action or revert their choice.
-
-<br>
-
-!-----------------IMG----------------------!
 <br>
 <br>
+<img src="assets/image/welcome2.png" width=1200>
+<br>
+</details>
 
 ### **Complete list**
 <details>
