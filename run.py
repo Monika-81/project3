@@ -581,7 +581,7 @@ def update_location(edit_item, location, shopping_list):
 
 def add_item(shopping_list):
     """
-    Asks the user what values they like to pass to the new row.
+    Asks the user what values they like to pass to the new item.
     Validates the values and asks the user to verify that they want
     to add input values as a new row on chosen list.
     """
