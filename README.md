@@ -42,7 +42,7 @@ Let me introduce you further to [**Buy-Me**](https://but-me-py.herokuapp.com/)!
     - [Content](#content)
     - [Acknowledgement](#acknowledgement)
 
-[Back to top](#buy-me))
+[Back to top](#buy-me)
 
 
 ---
@@ -63,6 +63,8 @@ To make the lists easy to read and more visual appealing, [**PrettyTable**](http
 <img src="assets/image/prettytable.png" width=1000>
 
 <br>
+
+[Back to top](#buy-me)
 
 ---
 
@@ -241,10 +243,10 @@ The last and sixth option on the list is not to edit an item but to go back to t
 </details>
 
 ### **Future features**
-- I would love to add a feauture so the user is able to sort the groceries accoring to the location they appear in their store, making the shopping even easier and with better flow for the user.
+- I would love to add a feature so the user is able to sort the groceries accoring to the location they appear in their store, making the shopping even easier and with better flow for the user.
 - Ideally I would also like to add style to the application to make more estetically pleasing.
 
-[Back to top](#buy-me))
+[Back to top](#buy-me)
 
 ---
 
@@ -252,13 +254,12 @@ The last and sixth option on the list is not to edit an item but to go back to t
 
 ### **Languages**
 
-- **Python**
-<br>
+- **Python**<br>
 Is the primary language used to develop the CLI (*command line interface*) application.
-
-- **Other languages**
 <br>
+- **Other languages**<br>
 The template provided by Code Institute for this project also includes HTML, CSS and Javascript. Though I have not used this languages on my own development in this project, they provides a foundation for my project to be built and deployed correctly.
+<br>
 
 ### **Tools**
 
@@ -284,17 +285,17 @@ The template provided by Code Institute for this project also includes HTML, CSS
     - I used for storing data accessed by the application.
 
 - [Gspread](https://docs.gspread.org/en/latest/)
-    - I used gspread to handle and update the data stored in the spreadsheet at Google Sheet.
+    - Library installed. I used gspread to handle and update the data stored in the spreadsheet at Google Sheet.
 
 - [PEP8](http://pep8online.com/)
     - I used PEP8 online check to test and validate my python code.  
 
 - [PrettyTable](https://pypi.org/project/prettytable/)
-    - I installed and used PrettyTable to generate the teble structure for better visual of the shopping lists.
+    - Library installed. I used PrettyTable to generate the table structure design for better visual of the shopping lists.
 
 
 
-[Back to top](#buy-me))
+[Back to top](#buy-me)
 
 ---
 
@@ -304,55 +305,32 @@ For more information about the testing performed during the development, go to t
 <br>
 <br>
 
-[Back to top](#buy-me))
+[Back to top](#buy-me)
 
 ---
 
 ## **Deployment**
 
-## Creating the Heroku app
+The project was deployed to **Heroku** from **GitPod**:
+- After creating an accout or logging in to an existing one on Heroku, click the "New" button on the right hand side of the 'Personal' menu.
+- Choose the option 'Create new app' and the choose a unique name for your application and the right region. Then click 'Create New App'.
+- Next you need to add buildpacks and create config vars, this is utterly **important** to have done before you deploy your app!
 
-When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
+    - Click 'settings' in the menu under your personal menu.
+    - Start with adding the buildpacks, click 'add buildpack'. Add the buildpacks one by one. For this project I used: `heroku/python` &. `heroku/nodejs`
+    - Then add config vars by clicking 'Reveal Config Vars'. I used _Config Var_ called `PORT`, set to `8000`.
+    - If you have credentials for your prodject, you need to add these as well. Create another _Config Var_ called `CREDS` and paste the a copy of the code inside your credentials file into the value field.
 
-1. `heroku/python`
-2. `heroku/nodejs`
+- Now it's time to deploy the app. Go back to the top of the page and click "Deploy".
+- Choose a deployment method, I used GitHub since my repositorie is lockated on GitHub.
+- Scroll down to 'Connect to GitHub' and search for your project. Make sure you are connected to the right GitHub account. Click 'Connect'.
+- Keep scrolling downwards, now you can choose between Automatic Deployment or Manual Deployment. I choose Manual first, untill the app was properly deployed and a link to the app was visual. Then I choose to enable automatic deployment for smoother testing. 
 
-You must then create a _Config Var_ called `PORT`. Set this to `8000`
-
-If you have credentials, such as in the Love Sandwiches project, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
-
-Connect your GitHub repository and deploy as normal.
-
-
-The project was deployed to **GitHub** from **GitPod**:
-- Go to the project's repository page at GitHub.
-- Go to *settings* in the upper menu, and then choose *pages* in the left-hand menu.
-- Under the Source section, select the *Main branch* from the drop-down menu and click *save*.
-- On top of the screen there will be a massage displayed with the live link.
+The live app can be found here: https://but-me-py.herokuapp.com/ (Yes! I made a type-o choosing the name of the application on Heroku and noticed too late to change it.)
 <br>
 
 
-The live link can be found here: https://monika-81.github.io/project2/
-<br>
-
-A copy of this GitHub Repository can be made by either making a copy on your local machine or by forking the GitHub content. By using a copy of the repository changes can be made to the copy without affecting the original code. To make a copy of the repository, follow these steps:
-
-**Clone**
-- Locate the repository at **GitHub**.
-- At the top of the file's menu, click the green *code* button to the right.
-- The first option in the drop-down menu is clone, where you get three choices of how to clone the repository.
-- To clone a copy to your GitHub Desktop, click **Open with GitHub Desktop**.
-- By clicking "choose" you can pick where you want to store the clone on you local machine.
-- And finally, click the button *clone*.
-<br>
-
-**Forking**
-- Locate the repository at **GitHub**.
-- At the top right-hand side is a button called *fork*, click on the button to create a copy of the original repository in your GitHub Account.
-<br>
-<br>
-
-[Back to top](#buy-me))
+[Back to top](#buy-me)
 
 ---
 
