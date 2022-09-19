@@ -35,13 +35,13 @@ def view_shopping_list():
         global shop_list
 
         if list_choice == 's':
-            print('You chose the STANDARD shopping list.\n')
+            print('\nYou chose the STANDARD shopping list.\n')
             shop_list = SHEET.worksheet('standard').get_values()
             list_prettytable(shop_list)
             return shop_list
 
         elif list_choice == 'e':
-            print('You chose the EXTRA shopping list.\n')
+            print('\nYou chose the EXTRA shopping list.\n')
             shop_list = SHEET.worksheet('extra').get_values()
             list_prettytable(shop_list)
             return shop_list
@@ -63,7 +63,7 @@ def view_shopping_list():
             shop_list = headings + sorted_list
             list_prettytable(shop_list)
 
-            print('Would you like to sort on items that needs to be bought?')
+            print('\nWould you like to sort on items that needs to be bought?')
             sort_on_buy(sort_list, headings)
         else:
             print('Incorrect list choice, type "c", "e" or "s".')
@@ -189,8 +189,8 @@ def item_to_edit(shopping_list):
         print('\nChoose the number of the item you like to edit.\n')
         item_index = input('Item number:\n')
         if validate_int(item_index):
-            print(f'(\nYou chose item no. {item_index}. Is that correct?')
-            validate_item = input('Y/N? Or Q to go back.\n').lower()
+            print(f'\nYou chose item no. {item_index}. Is that correct?')
+            validate_item = input('Y/N? Or Q to go back to the edit menu.\n').lower()
             break
 
     # input validation        
@@ -711,7 +711,7 @@ def delete_item(edit_item, edit_action, shopping_list):
                         edit_action_event(edit_action, shopping_list)
 
                 elif verify_delete == 'n':
-                    print('\nItem not deleted. Please choice a new action.\n')
+                    print('\nItem not deleted. Going back to main menu.\n')
                     main()
                     break
 
@@ -755,7 +755,7 @@ def delete_item(edit_item, edit_action, shopping_list):
                         edit_action_event(edit_action, shopping_list)
 
                 elif verify_delete == 'n':
-                    print('\nItem not deleted. Please choice a new action.\n')
+                    print('\nItem not deleted. Going back to main menu.\n')
                     main()
                     break
 
