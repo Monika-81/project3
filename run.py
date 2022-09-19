@@ -145,7 +145,7 @@ def edit_menu(shopping_list):
             edit_action_event(edit_action, shopping_list)
         elif validate_option == 'n':
             print()
-            print('Please make new choice of action.\n')
+            print('Please make a new choice of action.\n')
             edit_menu(shopping_list)
         else:
             print()
@@ -166,6 +166,10 @@ def validate_action(value):
         if value in menu_range:
             print()
         elif value > 6:
+            print('You need to choose a number between 1 - 6.')
+            print('Please try again!\n')
+            return False
+        elif value < 1:
             print('You need to choose a number between 1 - 6.')
             print('Please try again!\n')
             return False
@@ -255,8 +259,8 @@ def edit_action_event(edit_action, shopping_list):
         main()
 
     else:
-        print('Something went wrong, please restart the program.')
-        quit()
+        print('Oops! Something went wrong, please restart the app!')
+        main()
 
     return
 
@@ -715,6 +719,11 @@ def delete_item(edit_item, edit_action, shopping_list):
                     print('Please try again. Choose yes (y) or no (n).')
                     return False
 
+            else:
+                print('\nThat item do not exist, going back to main menu.')
+                main()
+                break
+
         elif shopping_list == SHEET.worksheet('extra').get_values():
             extra = SHEET.worksheet('extra').col_values(1)
             index_num = int(edit_item)
@@ -753,8 +762,13 @@ def delete_item(edit_item, edit_action, shopping_list):
                 else:
                     print('Please try again. Choose yes (y) or no (n).')
                     return False
+            else:
+                print('\nThat item do not exist, going back to main menu.')
+                main()
+                break
+
         else:
-            print('Oops! Something went wrong, please try again!')
+            print('Oops! Something went wrong, please restart the app!')
             main()
     return
 
